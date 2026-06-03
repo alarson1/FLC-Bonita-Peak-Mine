@@ -1,0 +1,6 @@
+[submodule "GodotServer/noodles_server"]
+	path = GodotServer/noodles_server
+	url = git@github.com:FLC-Solar-Lab/noodles_server.git
+[submodule "GodotServer/hmdUI"]
+	path = GodotServer/hmdUI
+	url = git@github.com:FLC-Solar-Lab/hmdUI.git
