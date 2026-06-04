@@ -7,18 +7,27 @@ class_name UIDefinitions
 const LAYOUT := {
 	"panels": [
 		{
-			"name": "MainPanel",
-			"title": "UI Demo",
+			"name": "ControlsPanel",
+			"title": "Controls",
 			"pos": Vector3(0, 1.0, 0),
-			"cols": 1,
-			"rows": 1,
+			"cols": 2,
+			"rows": 3,
 			"spacing": Vector2(0.1, -.5),
 			"padding": Vector2(0.12, 0.12),
 			"bg_inset": Vector2(0.0, 0.0),
 			"bg_scale": Vector2(1.0, 1.0),
 			"cell_padding": Vector2(0.0, 0.0),
 			"items": [
-				{"type": "button", "name": "MyButton", "label": "Press!", },
+				# scale/size
+				{"type": "slider", "name": "UIScaleSlider", "label": "Scale", }, 
+				# rotation
+				{"type": "slider", "name": "UIRotationSlider", "label": "Rotation",},
+				# x translation 
+				{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation",},
+				# y translation
+				{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation",},
+				# z translation
+				{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation",},
 			]
 		},
 	]
@@ -26,8 +35,19 @@ const LAYOUT := {
 
 ## Bindings
 const BINDINGS := {
-	"buttons": [
-		{"panel": "MainPanel", "button": "MyButton", "param": "button1"},
+	"sliders": [
+		# scaling
+		{"panel": "ControlsPanel", "slider": "UIScaleSlider", "param": "Scale"},
+		# rotation
+		{"panel": "ControlsPanel", "slider": "UIRotationSlider", "param": "Rotation"},
+	],
+	"steppers": [
+		# x translation 
+		{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
+		# y translation
+		{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
+		# z translation
+		{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
 	],
 }
 

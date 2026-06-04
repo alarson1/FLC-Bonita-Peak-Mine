@@ -1,20 +1,21 @@
-[gd_scene load_steps=26 format=3 uid="uid://dgrr2wlovkt04"]
+[gd_scene load_steps=27 format=3 uid="uid://dgrr2wlovkt04"]
 
 [ext_resource type="Script" uid="uid://0v28xpnf64dh" path="res://flc_root.gd" id="1_7isue"]
 [ext_resource type="Script" uid="uid://de7qmy1xc4430" path="res://SimLink.gd" id="1_vdn7q"]
 [ext_resource type="Script" uid="uid://cglr5edjr42bj" path="res://sensing_template.gd" id="2_3yp5c"]
 [ext_resource type="PackedScene" uid="uid://cpk5g5h4rep12" path="res://noodles_server/utility/CameraRig.tscn" id="4_1ewb7"]
-[ext_resource type="Script" uid="uid://dmnpkgmrnr0jl" path="res://noodles_server/noodles_server_root.gd" id="4_fqbtt"]
-[ext_resource type="Script" uid="uid://dst3t6j546j3t" path="res://noodles_server/vrpn/query_vrpn.gd" id="6_4prhv"]
-[ext_resource type="Script" uid="uid://d1duc5g8135bw" path="res://noodles_server/position_set.gd" id="8_ih50r"]
-[ext_resource type="Script" uid="uid://dnyg4f46qssb7" path="res://noodles_server/position_updated.gd" id="9_bineq"]
-[ext_resource type="Script" uid="uid://d8wl1mp2o8bm" path="res://hmdUI/UIRoot.gd" id="10_mhtnv"]
-[ext_resource type="Script" uid="uid://dviok7hixqd1b" path="res://hmdUI/SpatialResolver.gd" id="11_wvkd0"]
-[ext_resource type="Script" uid="uid://y7hqimvyksfd" path="res://noodles_server/vrpn/vrpn_link.gd" id="11_ysgcl"]
-[ext_resource type="Script" uid="uid://cjvp2j4a3vjw0" path="res://hmdUI/InteractionModel.gd" id="12_xrvve"]
-[ext_resource type="Script" uid="uid://bl3vn84qi1urm" path="res://hmdUI/hmd_ui.gd" id="13_kh32m"]
-[ext_resource type="Script" uid="uid://c5qxjr6u5e5rh" path="res://hmdUI/ui_grabbable.gd" id="13_s3jtd"]
+[ext_resource type="Script" uid="uid://ckric4d6l74p2" path="res://noodles_server/noodles_server_root.gd" id="4_fqbtt"]
+[ext_resource type="Script" uid="uid://bmsoftjq1engl" path="res://noodles_server/vrpn/query_vrpn.gd" id="6_4prhv"]
+[ext_resource type="Script" uid="uid://c0ytspvbwtdyw" path="res://noodles_server/position_set.gd" id="8_ih50r"]
+[ext_resource type="Script" uid="uid://cd6wfcay5hd84" path="res://noodles_server/position_updated.gd" id="9_bineq"]
+[ext_resource type="Script" uid="uid://unca5sqdupto" path="res://hmdUI/UIRoot.gd" id="10_mhtnv"]
+[ext_resource type="Script" uid="uid://b3n323cff430t" path="res://hmdUI/SpatialResolver.gd" id="11_wvkd0"]
+[ext_resource type="Script" uid="uid://b1an3e1gj6ij2" path="res://noodles_server/vrpn/vrpn_link.gd" id="11_ysgcl"]
+[ext_resource type="Script" uid="uid://c2c21xefjnjjx" path="res://hmdUI/InteractionModel.gd" id="12_xrvve"]
+[ext_resource type="Script" uid="uid://blt3o42hdam74" path="res://hmdUI/hmd_ui.gd" id="13_kh32m"]
+[ext_resource type="Script" uid="uid://dbfha3f72wwsb" path="res://hmdUI/ui_grabbable.gd" id="13_s3jtd"]
 [ext_resource type="ArrayMesh" uid="uid://dkvxkfgiycsl7" path="res://assets/BonitaPeakMining.obj" id="15_wuy68"]
+[ext_resource type="Script" uid="uid://b0iqt27nxd1ju" path="res://user_interactions.gd" id="16_4mn5x"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rl4yx"]
 
@@ -125,8 +126,11 @@ script = ExtResource("13_kh32m")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NoodlesRoot/UIRoot/UIgrabbable"]
 shape = SubResource("BoxShape3D_n5gk6")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NoodlesRoot"]
+[node name="MineModel3D" type="MeshInstance3D" parent="NoodlesRoot"]
 mesh = ExtResource("15_wuy68")
+
+[node name="UserInteractions" type="Node" parent="NoodlesRoot"]
+script = ExtResource("16_4mn5x")
 
 [connection signal="simulation_completed" from="SimLink" to="." method="intercept_sim"]
 [connection signal="simulation_failed" from="SimLink" to="." method="intercept_failed"]
