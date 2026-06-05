@@ -19,15 +19,25 @@ const LAYOUT := {
 			"cell_padding": Vector2(0.0, 0.0),
 			"items": [
 				# scale/size
-				{"type": "slider", "name": "UIScaleSlider", "label": "Scale", }, 
+				{"type": "stepper", "name": "UIScaleSlider", "label": "Scale", "min": 0, "max": 1, "value": 0.5, "step": 0.1},
 				# rotation
-				{"type": "slider", "name": "UIRotationSlider", "label": "Rotation",},
+				{"type": "stepper", "name": "UIRotationSlider", "label": "Rotation", "min": 0.0, "max": 1, "value": 0.0, "step": 0.1},
 				# x translation 
-				{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation",},
+				{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.1},
 				# y translation
-				{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation",},
+				{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.1},
 				# z translation
-				{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation",},
+				{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.1},
+				# scale/size
+				#{"type": "stepper", "name": "UIScaleSlider", "label": "Scale", }, 
+				## rotation
+				#{"type": "stepper", "name": "UIRotationSlider", "label": "Rotation",},
+				## x translation 
+				#{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation",},
+				## y translation
+				#{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation",},
+				## z translation
+				#{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation",},
 			]
 		},
 	]
@@ -35,19 +45,26 @@ const LAYOUT := {
 
 ## Bindings
 const BINDINGS := {
-	"sliders": [
-		# scaling
-		{"panel": "ControlsPanel", "slider": "UIScaleSlider", "param": "Scale"},
-		# rotation
-		{"panel": "ControlsPanel", "slider": "UIRotationSlider", "param": "Rotation"},
-	],
+	#"sliders": [
+		## scaling
+		#{"panel": "ControlsPanel", "slider": "UIScaleSlider", "param": "Scale"},
+		## rotation
+		#{"panel": "ControlsPanel", "slider": "UIRotationSlider", "param": "Rotation"},
+	#],
 	"steppers": [
 		# x translation 
-		{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
-		# y translation
-		{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
-		# z translation
-		{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
+		#{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
+		{"panel": "ControlsPanel", "stepper": "UI_XStepper", "param": "X-Translation"},
+		## y translation
+		#{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
+		{"panel": "ControlsPanel", "stepper": "UI_YStepper", "param": "Y-Translation"},
+		## z translation
+		#{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
+		{"panel": "ControlsPanel", "stepper": "UI_ZStepper", "param": "Z-Translation"},
+		# scaling
+		{"panel": "ControlsPanel", "stepper": "UIScaleSlider", "param": "Scale"},
+		# rotation
+		{"panel": "ControlsPanel", "stepper": "UIRotationSlider", "param": "Rotation"},
 	],
 }
 
