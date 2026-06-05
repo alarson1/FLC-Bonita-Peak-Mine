@@ -56,6 +56,8 @@ host_port = 5001
 
 [node name="CameraRig" parent="." instance=ExtResource("4_1ewb7")]
 spring_length = 2.0
+maxZoom = 0.0
+minZoom = 0.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sqvvf")
@@ -99,6 +101,7 @@ shape = SubResource("SphereShape3D_n884w")
 
 [node name="TextMesh" type="MeshInstance3D" parent="NoodlesRoot/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0106983, 1.43365, 0)
+visible = false
 mesh = SubResource("TextMesh_0us7d")
 
 [node name="UIRoot" type="Node3D" parent="NoodlesRoot"]
@@ -127,6 +130,7 @@ script = ExtResource("13_kh32m")
 shape = SubResource("BoxShape3D_n5gk6")
 
 [node name="MineModel3D" type="MeshInstance3D" parent="NoodlesRoot"]
+transform = Transform3D(0.476559, 0, 0, 0, 0.476559, 0, 0, 0, 0.476559, 0, 0, 0)
 mesh = ExtResource("15_wuy68")
 
 [node name="UserInteractions" type="Node" parent="NoodlesRoot"]

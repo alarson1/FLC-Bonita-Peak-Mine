@@ -1,8 +1,9 @@
 extends Node
 
 #--------External References----------
-@onready var _hmd_ui = $"../NoodlesRoot/UIRoot/UIGrabbable/hmdUI"
-@onready var _mine_model_3D = $"../NoodlesRoot/MineModel3D"
+#@onready var _hmd_ui = $"../NoodlesRoot/UIRoot/UIGrabbable/hmdUI"
+@onready var _hmd_ui = $"../../NoodlesRoot/UIRoot/UIgrabbable/hmdUI"
+@onready var _mine_model_3D = $"../../NoodlesRoot/MineModel3D"
 var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
@@ -19,6 +20,8 @@ const rotation_max := 360.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# 1. Connect the core signal from the UI
+	#print(get_node_or_null("../NoodlesRoot/UIRoot/UIGrabbable/hmdUI"))
+	#print(get_node_or_null("../NoodlesRoot/UIRoot/UIGrabbable/hmdUI/hmdUI"))
 	_hmd_ui.parameter_changed.connect(self._on_ui_parameter_updated)
 	
 	# 2. Map the parameter strings to specific functions
