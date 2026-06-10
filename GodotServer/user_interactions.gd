@@ -3,7 +3,7 @@ extends Node
 #--------External References----------
 #@onready var _hmd_ui = $"../NoodlesRoot/UIRoot/UIGrabbable/hmdUI"
 @onready var _hmd_ui = $"../../NoodlesRoot/UIRoot/UIgrabbable/hmdUI"
-@onready var _mine_model_3D = $"../../NoodlesRoot/MineModel3D"
+@onready var _mine_model_3D = $"../../NoodlesRoot/ObstacleRoot/MineModel3D"
 var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
@@ -20,8 +20,6 @@ const rotation_max := 360.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# 1. Connect the core signal from the UI
-	#print(get_node_or_null("../NoodlesRoot/UIRoot/UIGrabbable/hmdUI"))
-	#print(get_node_or_null("../NoodlesRoot/UIRoot/UIGrabbable/hmdUI/hmdUI"))
 	_hmd_ui.parameter_changed.connect(self._on_ui_parameter_updated)
 	
 	# 2. Map the parameter strings to specific functions
@@ -50,6 +48,8 @@ func _on_ui_parameter_updated(param: String, value: Variant) -> void:
 		action.call(param, value)
 
 # ----------Action Methods--------------
+
+# scale and rotation
 func _on_scale_changed(value: float) -> void:
 	# remap 0-1 slider scale to 0.1-3 x
 	var scale_val : float = lerp(scale_min, scale_max, value)
@@ -60,8 +60,9 @@ func _on_rotation_changed(value: float) -> void:
 	var degrees : float = lerp(rotation_min, rotation_max, value)
 	_mine_model_3D.rotation_degrees.y = degrees
 
+# translation functions
+# value is the stepper's absolute position (sets X directly)
 func _on_translate_x_changed(value: float) -> void:
-	# value is the stepper's absolute position (sets X directly)
 	var pos : Vector3 = _mine_model_3D.position
 	pos.x = value
 	_mine_model_3D.position = pos

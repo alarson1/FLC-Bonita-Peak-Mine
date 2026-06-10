@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://pnrmfcqkxpw3"]
 
-[ext_resource type="Script" path="res://gizmo.gd" id="1_04jne"]
+[ext_resource type="Script" uid="uid://dx537suer8t3k" path="res://gizmo.gd" id="1_04jne"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_b7reu"]
 top_radius = 0.01
@@ -28,6 +28,7 @@ grow_amount = 0.1
 script = ExtResource("1_04jne")
 
 [node name="y_axes" type="Area3D" parent="."]
+collision_layer = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="y_axes"]
 mesh = SubResource("CylinderMesh_b7reu")
@@ -39,6 +40,7 @@ shape = SubResource("CylinderShape3D_1hksf")
 
 [node name="z_axes" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+collision_layer = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="z_axes"]
 mesh = SubResource("CylinderMesh_b7reu")
@@ -50,6 +52,7 @@ shape = SubResource("CylinderShape3D_1hksf")
 
 [node name="x_axes" type="Area3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+collision_layer = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="x_axes"]
 mesh = SubResource("CylinderMesh_b7reu")

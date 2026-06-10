@@ -1,0 +1,7 @@
+res://flc_root.tscn
+res://gizmo.tscn
+res://gizmo.gd
+res://virtual_obstacle_controls.gd
+res://MouseInputBridge.gd
+res://user_interactions.gd
+res://hmd_ui_definition.gd
