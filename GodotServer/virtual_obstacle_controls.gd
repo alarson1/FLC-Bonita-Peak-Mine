@@ -20,8 +20,6 @@ var obs_offset = 0
 
 func _ready() -> void:
 	_find_all_static_bodies(get_tree().get_root())
-	#for body in static_bodies:
-		#print("StaticBody ID: ", body.get_instance_id(), " Layer: ", body.collision_layer)
 	$"../PositionUpdated".position_updated.connect(_grab_obstacle)
 	$"../PositionSet".position_set.connect(_release_obstacle)
 	set_process(false)  # not using

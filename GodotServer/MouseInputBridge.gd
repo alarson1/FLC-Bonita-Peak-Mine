@@ -21,34 +21,16 @@ func _ready() -> void:
 	if _camera == null:
 		printerr("MouseInputBridge: no active camera found")
 
-
 func _process(_delta: float) -> void:
 	if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		return
-	#if _camera == null:
-		#_camera = get_viewport().get_camera_3d()
-		#return
 
-	#var mouse_pos := get_viewport().get_mouse_position()
-	#var ray_origin := _camera.project_ray_origin(mouse_pos)
-	#var ray_dir := _camera.project_ray_normal(mouse_pos)
 	_get_mouse_pos()
 	_get_ray_origin()
 	_get_ray_dir()
 
 	_ui_root.on_position_updated(ray_origin, ray_dir, SENDER_ID)
 	position_updated.emit(ray_origin, ray_dir, SENDER_ID)
-
-#func _input(event: InputEvent) -> void:
-	#if event is InputEventMouseButton:
-		#if event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
-			#_ui_root.on_position_set(SENDER_ID)
-			#position_set.emit(SENDER_ID)
-
-#func _input(event: InputEvent) -> void:
-	#if event is InputEventMouseButton && (event.button_index == MOUSE_BUTTON_LEFT and not event.pressed):
-		#_ui_root.on_position_set(SENDER_ID)
-		#position_set.emit(SENDER_ID)
 
 func _input(event: InputEvent) -> void:
 	if not (event is InputEventMouseButton):
