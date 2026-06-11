@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://blaieaqp413k7"]
+
+[ext_resource type="Script" uid="uid://cib2rig7vup10" path="res://addons/terrain_3d/tools/importer.gd" id="1_60b8f"]
+
+[sub_resource type="Gradient" id="Gradient_555ul"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ij0dh"]
+noise_type = 2
+frequency = 0.03
+cellular_jitter = 3.0
+cellular_return_type = 0
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_amplitude = 50.0
+domain_warp_fractal_type = 2
+domain_warp_fractal_lacunarity = 1.5
+domain_warp_fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kcdxh"]
+seamless = true
+color_ramp = SubResource("Gradient_555ul")
+noise = SubResource("FastNoiseLite_ij0dh")
+
+[sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_34j6c"]
+_shader_parameters = {
+&"bias_distance": null,
+&"blend_sharpness": null,
+&"depth_blur": null,
+&"enable_macro_variation": null,
+&"enable_projection": null,
+&"flat_terrain_normals": null,
+&"macro_variation1": null,
+&"macro_variation2": null,
+&"macro_variation_slope": null,
+&"mipmap_bias": null,
+&"noise1_angle": null,
+&"noise1_offset": null,
+&"noise1_scale": null,
+&"noise2_scale": null,
+&"noise_texture": SubResource("NoiseTexture2D_kcdxh"),
+&"projection_threshold": null
+}
+show_colormap = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lsour"]
+transparency = 4
+cull_mode = 2
+vertex_color_use_as_albedo = true
+backlight_enabled = true
+backlight = Color(0.5, 0.5, 0.5, 1)
+distance_fade_mode = 1
+distance_fade_min_distance = 128.0
+distance_fade_max_distance = 96.0
+
+[sub_resource type="Terrain3DMeshAsset" id="Terrain3DMeshAsset_ce8yv"]
+generated_type = 1
+height_offset = 0.5
+material_override = SubResource("StandardMaterial3D_lsour")
+last_lod = 0
+last_shadow_lod = 0
+lod0_range = 128.0
+
+[sub_resource type="Terrain3DAssets" id="Terrain3DAssets_42p8u"]
+mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_ce8yv")])
+
+[node name="Importer" type="Terrain3D"]
+material = SubResource("Terrain3DMaterial_34j6c")
+assets = SubResource("Terrain3DAssets_42p8u")
+mesh_lods = 8
+show_colormap = true
+top_level = true
+script = ExtResource("1_60b8f")
+height_file_name = "C:/Users/caden/XR_Lab/Repos/FLC-Bonita-Peak-Mine/GodotServer/source_data/dem_3193.2_4103.2_2000x1273.r16"
+color_file_name = "C:/Users/caden/XR_Lab/Repos/FLC-Bonita-Peak-Mine/GodotServer/source_data/color.png"
+r16_range = Vector2(3193.24, 4103.17)
+r16_size = Vector2i(2000, 1273)
+destination_directory = "res://terrain_data"
+metadata/_edit_lock_ = true

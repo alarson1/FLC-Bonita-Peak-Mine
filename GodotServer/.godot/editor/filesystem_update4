@@ -1,4 +1,3 @@
 res://flc_root.tscn
-res://MouseInputBridge.gd
-res://virtual_obstacle_controls.gd
 res://gizmo.tscn
+res://addons/terrain_3d/tools/importer.tscn

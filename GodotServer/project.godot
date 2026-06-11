@@ -24,6 +24,10 @@ VRPNClientSingleton="*res://noodles_server/vrpn/vrpn_client.gd"
 
 window/size/always_on_top=true
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/terrain_3d/plugin.cfg")
+
 [filesystem]
 
 import/blender/enabled=false
