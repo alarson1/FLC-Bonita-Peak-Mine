@@ -4,7 +4,7 @@ extends Node3D
 ## 
 ## Attach "Slave Node" in the properties. 
  
-@onready var camera= $"/root/FLCRoot/CameraRig/Camera3D"
+@onready var camera: Camera3D
 @export var slave_node: Node3D
 
 signal position_changed()
@@ -16,6 +16,7 @@ var _axes = {"x_axes":0,"y_axes":1,"z_axes":2}
 const RAY_LENGTH = 1000
 
 func _ready() -> void:
+	camera = get_viewport().get_camera_3d()
 	if slave_node != null:
 		global_position = slave_node.global_position
 

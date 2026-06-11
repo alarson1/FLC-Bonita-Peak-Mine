@@ -1,60 +1,55 @@
-# Data source for HMD UI layout and bindings.
 extends RefCounted
 
 class_name UIDefinitions
 
-## Layout
+# define panel items and properties
 const LAYOUT := {
 	"panels": [
 		{
 			"name": "ControlsPanel",
 			"title": "Controls",
-			"pos": Vector3(0, 1.0, 0),
-			"cols": 0,
-			"rows": 1,
-			"spacing": Vector2(0.1, 1),
-			"padding": Vector2(0.12, 0.12),
+			"pos": Vector3(-.3, 1, 0),
+			"cols": 2,
+			"rows": 0,
+			"spacing": Vector2(0.02, 0.02),
+			"padding": Vector2(0.03, 0.03),
 			"bg_inset": Vector2(0.0, 0.0),
 			"bg_scale": Vector2(1.0, 1.0),
 			"cell_padding": Vector2(0.0, 0.0),
 			"items": [
-				# scale/size
-				{"type": "slider", "name": "UIScaleSlider", "label": "Scale", }, 
+				# scale
+				{"type": "stepper", "name": "UIScaleSlider", "label": "Scale", "min": 0, "max": 1, "value": .2, "step": 0.05},
 				# rotation
-				{"type": "slider", "name": "UIRotationSlider", "label": "Rotation",},
-				# x translation 
-				{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation",},
+				{"type": "stepper", "name": "UIRotationSlider", "label": "Rotation", "min": 0, "max": 1, "value": 0.5, "step": .05},
+				# x translation
+				{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation", "min": -10, "max": 10, "value": 0.0, "step": 0.5},
 				# y translation
-				{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation",},
+				{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation", "min": -10, "max": 10.0, "value": 0.0, "step": 0.5},
 				# z translation
-				{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation",},
+				{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -10, "max": 10.0, "value": 0.0, "step": 0.5},
 			]
 		},
 	]
 }
 
-## Bindings
+# attach previously defined items to internal parameters
 const BINDINGS := {
-	"sliders": [
-		# scaling
-		{"panel": "ControlsPanel", "slider": "UIScaleSlider", "param": "Scale"},
-		# rotation
-		{"panel": "ControlsPanel", "slider": "UIRotationSlider", "param": "Rotation"},
-	],
 	"steppers": [
-		# x translation 
-		{"type": "stepper", "name": "UI_XStepper", "label": "X-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
+		# x translation
+		{"panel": "ControlsPanel", "stepper": "UI_XStepper", "param": "X-Translation"},
 		# y translation
-		{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
+		{"panel": "ControlsPanel", "stepper": "UI_YStepper", "param": "Y-Translation"},
 		# z translation
-		{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -2.0, "max": 2.0, "value": 0.0, "step": 0.01, "hide_slider": true},
+		{"panel": "ControlsPanel", "stepper": "UI_ZStepper", "param": "Z-Translation"},
+		# scaling
+		{"panel": "ControlsPanel", "stepper": "UIScaleSlider", "param": "Scale"},
+		# rotation
+		{"panel": "ControlsPanel", "stepper": "UIRotationSlider", "param": "Rotation"},
 	],
 }
 
 static func get_layout() -> Dictionary:
-	# Return a deep copy so runtime edits do not touch constants.
 	return LAYOUT.duplicate(true)
 
 static func get_bindings() -> Dictionary:
-	# Return a deep copy so runtime edits do not touch constants.
 	return BINDINGS.duplicate(true)
