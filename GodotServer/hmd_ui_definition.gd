@@ -27,6 +27,8 @@ const LAYOUT := {
 				{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation", "min": -10, "max": 10.0, "value": 0.0, "step": 0.5},
 				# z translation
 				{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -10, "max": 10.0, "value": 0.0, "step": 0.5},
+				# mine select menu
+				{"type": "dropdown", "name": "UILayerDropdown", "label": "Layers", "items": ["All", "Red_and_Bonita_Mine", "Gold_King", "Gold_Prince", "Sunnyside_Mine", "Mogul_Mine_and_Brenneman_Shaft", "Pride_Of_Bonita_Region", "Updated_Bulkheads", "Lake_Emma_Hole"]},
 			]
 		},
 	]
@@ -45,6 +47,24 @@ const BINDINGS := {
 		{"panel": "ControlsPanel", "stepper": "UIScaleSlider", "param": "Scale"},
 		# rotation
 		{"panel": "ControlsPanel", "stepper": "UIRotationSlider", "param": "Rotation"},
+	],
+	"dropdowns": [
+		{
+			"panel": "MainPanel",
+			"dropdown": "UILayerDropdown",
+			"param": "loc",
+			"options": {
+				"All": -1,
+				"Red_and_Bonita_Mine": 0,
+				"Gold_King": 1,
+				"Gold_Prince": 2,
+				"Sunnyside_Mine": 3,
+				"Mogul_Mine_and_Brenneman_Shaft": 4,
+				"Pride_Of_Bonita_Region": 5,
+				"Updated_Bulkheads": 6,
+				"Lake_Emma_Hole": 7,
+			}
+		},
 	],
 }
 
