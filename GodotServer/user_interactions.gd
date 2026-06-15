@@ -8,13 +8,25 @@ var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
 var _UI_ACTIONS: Dictionary
+
 # _on_scale_changed config
-const scale_min := 0.1
-const scale_max := 3.0
+#const scale_min := 0.1
+@onready var base_scale = _mine_model_3D.scale
+@onready var scale_min : Vector3 = 0.1 * base_scale
+#const scale_max := 2.0
+@onready var scale_max : Vector3 = 2.0 * base_scale
+
 # _on_rotation_changed config
 const rotation_min := 0.0
 const rotation_max := 360.0
 
+# _on_Layer_selected config
+@onready var LayerNodes : Array[Node3D] = [
+	$"../ObstacleRoot/MineModel3D/RedBonitaMine", $"../ObstacleRoot/MineModel3D/Gold_King_Mine",
+	$"../ObstacleRoot/MineModel3D/Gold_Prince", $"../ObstacleRoot/MineModel3D/Sunnyside_Mine",
+	$"../ObstacleRoot/MineModel3D/Mogul_Mine_and_Brenneman_Shaft", $"../ObstacleRoot/MineModel3D/Pride_of_Bonita",
+	$"../ObstacleRoot/MineModel3D/Bulkheads",
+]
 
 # ---------- _ready() -----------------
 # Called when the node enters the scene tree for the first time.
@@ -29,6 +41,7 @@ func _ready():
 		"X-Translation": self._on_translate_x_changed,
 		"Y-Translation": self._on_translate_y_changed,
 		"Z-Translation": self._on_translate_z_changed,
+		"Mine_Sections": self._on_layer_selected,
 	}
 
 
@@ -52,8 +65,10 @@ func _on_ui_parameter_updated(param: String, value: Variant) -> void:
 # scale and rotation
 func _on_scale_changed(value: float) -> void:
 	# remap 0-1 slider scale to 0.1-3 x
-	var scale_val : float = lerp(scale_min, scale_max, value)
-	_mine_model_3D.scale = Vector3.ONE * scale_val
+	var range = value / 2
+	#var scale_val : float = lerp(scale_min, scale_max, value)
+	#_mine_model_3D.scale = Vector3.ONE * scale_val
+	_mine_model_3D.scale  = lerp(scale_min, scale_max, range)
 
 func _on_rotation_changed(value: float) -> void:
 	# remap 0-1 slider scale to degrees (0-360)
@@ -76,3 +91,15 @@ func _on_translate_z_changed(value: float) -> void:
 	var pos: Vector3 = _mine_model_3D.position
 	pos.z = value
 	_mine_model_3D.position = pos
+
+# Layer Select Functions
+func _on_layer_selected(value: int) -> void:
+	if (value == -1):
+		get_tree().set_group("MineLayer", "visible", true)
+	else:
+		var target_node : Node3D = LayerNodes[value]
+		for i in LayerNodes:
+			if i == target_node:
+				i.visible = true
+			else:
+				i.visible = false

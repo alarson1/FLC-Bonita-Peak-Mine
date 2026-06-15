@@ -8,7 +8,7 @@ const LAYOUT := {
 		{
 			"name": "ControlsPanel",
 			"title": "Controls",
-			"pos": Vector3(-.3, 1, 0),
+			"pos": Vector3(-1.5, 1, 0),
 			"cols": 2,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -18,7 +18,7 @@ const LAYOUT := {
 			"cell_padding": Vector2(0.0, 0.0),
 			"items": [
 				# scale
-				{"type": "stepper", "name": "UIScaleSlider", "label": "Scale", "min": 0, "max": 1, "value": .2, "step": 0.05},
+				{"type": "stepper", "name": "UIScaleSlider", "label": "Scale", "min": 0.1, "max": 2, "value": 1, "step": 0.05},
 				# rotation
 				{"type": "stepper", "name": "UIRotationSlider", "label": "Rotation", "min": 0, "max": 1, "value": 0.5, "step": .05},
 				# x translation
@@ -27,8 +27,22 @@ const LAYOUT := {
 				{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation", "min": -10, "max": 10.0, "value": 0.0, "step": 0.5},
 				# z translation
 				{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -10, "max": 10.0, "value": 0.0, "step": 0.5},
+			]
+		},
+		{
+			"name": "LayerSelectionPanel",
+			"title": "Layer_Selection",
+			"pos": Vector3(1.5, 1, 0),
+			"cols": 1,
+			"rows": 0,
+			"spacing": Vector2(0.02, 0.02),
+			"padding": Vector2(0.03, 0.03),
+			"bg_inset": Vector2(0.0, 0.0),
+			"bg_scale": Vector2(1.0, 1.0),
+			"cell_padding": Vector2(0.0, 0.0),
+			"items": [
 				# mine select menu
-				{"type": "dropdown", "name": "UILayerDropdown", "label": "Layers", "items": ["All", "Red_and_Bonita_Mine", "Gold_King", "Gold_Prince", "Sunnyside_Mine", "Mogul_Mine_and_Brenneman_Shaft", "Pride_Of_Bonita_Region", "Updated_Bulkheads", "Lake_Emma_Hole"]},
+				{"type": "dropdown", "name": "UIMineLayerDropdown", "label": "Mine_Sections", "items": ["All", "Red_and_Bonita_Mine", "Gold_King", "Gold_Prince", "Sunnyside_Mine", "Mogul_Mine_and_Brenneman_Shaft", "Pride_Of_Bonita_Region", "Updated_Bulkheads"]},
 			]
 		},
 	]
@@ -50,9 +64,9 @@ const BINDINGS := {
 	],
 	"dropdowns": [
 		{
-			"panel": "MainPanel",
-			"dropdown": "UILayerDropdown",
-			"param": "loc",
+			"panel": "LayerSelectionPanel",
+			"dropdown": "UIMineLayerDropdown",
+			"param": "Mine_Sections",
 			"options": {
 				"All": -1,
 				"Red_and_Bonita_Mine": 0,
@@ -62,7 +76,6 @@ const BINDINGS := {
 				"Mogul_Mine_and_Brenneman_Shaft": 4,
 				"Pride_Of_Bonita_Region": 5,
 				"Updated_Bulkheads": 6,
-				"Lake_Emma_Hole": 7,
 			}
 		},
 	],
