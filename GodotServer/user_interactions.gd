@@ -21,12 +21,23 @@ const rotation_min := 0.0
 const rotation_max := 360.0
 
 # _on_Layer_selected config
-@onready var LayerNodes : Array[Node3D] = [
-	$"../ObstacleRoot/MineModel3D/RedBonitaMine", $"../ObstacleRoot/MineModel3D/Gold_King_Mine",
-	$"../ObstacleRoot/MineModel3D/Gold_Prince", $"../ObstacleRoot/MineModel3D/Sunnyside_Mine",
-	$"../ObstacleRoot/MineModel3D/Mogul_Mine_and_Brenneman_Shaft", $"../ObstacleRoot/MineModel3D/Pride_of_Bonita",
-	$"../ObstacleRoot/MineModel3D/Bulkheads",
-]
+@onready var LayerTrees : Dictionary[String,Node3D] = {
+	"Red_and_Bonita_Mine": $"../ObstacleRoot/MineModel3D/RedBonitaMine",
+	"Gold_King": $"../ObstacleRoot/MineModel3D/Gold_King_Mine",
+	"Gold_Prince": $"../ObstacleRoot/MineModel3D/Gold_Prince",
+	"Sunnyside_Mine": $"../ObstacleRoot/MineModel3D/Sunnyside_Mine",
+	"Mogul_Mine_and_Brenneman_Shaft": $"../ObstacleRoot/MineModel3D/Mogul_Mine_and_Brenneman_Shaft",
+	"Pride_Of_Bonita_Region": $"../ObstacleRoot/MineModel3D/Pride_of_Bonita",
+	"Updated_Bulkheads": $"../ObstacleRoot/MineModel3D/Bulkheads",
+}
+#@onready var LayerNodes : Array[Node3D] = [
+	#$"../ObstacleRoot/MineModel3D/RedBonitaMine", $"../ObstacleRoot/MineModel3D/Gold_King_Mine",
+	#$"../ObstacleRoot/MineModel3D/Gold_Prince", $"../ObstacleRoot/MineModel3D/Sunnyside_Mine",
+	#$"../ObstacleRoot/MineModel3D/Mogul_Mine_and_Brenneman_Shaft", $"../ObstacleRoot/MineModel3D/Pride_of_Bonita",
+	#$"../ObstacleRoot/MineModel3D/Bulkheads",
+#]
+@onready var LayerNodes : Array[Node3D] = LayerTrees.values()
+@onready var LayerNames : Array[String] = LayerTrees.keys()
 
 # ---------- _ready() -----------------
 # Called when the node enters the scene tree for the first time.
@@ -42,7 +53,13 @@ func _ready():
 		"Y-Translation": self._on_translate_y_changed,
 		"Z-Translation": self._on_translate_z_changed,
 		"Mine_Sections": self._on_layer_selected,
+		"Gold_King_Mine": self._on_sublayer_selected,
+		"Gold_Prince": self._on_sublayer_selected,
+		"Sunnyside_Mine": self._on_sublayer_selected,
+		"Mogul_Mine_and_Brenneman_Shaft": self._on_sublayer_selected,
 	}
+	
+	call_deferred("_init_subpanels") # initialize sub-layer panels to inactive after UIDefinitions is fully built
 
 
 # -------------Router-----------------
@@ -92,14 +109,81 @@ func _on_translate_z_changed(value: float) -> void:
 	pos.z = value
 	_mine_model_3D.position = pos
 
-# Layer Select Functions
+# ---------Layer Select Functions----------
+
+# overlayer selection
+#toggles visibility of mine group and activates/deactivates associated sublayer panel
 func _on_layer_selected(value: int) -> void:
 	if (value == -1):
-		get_tree().set_group("MineLayer", "visible", true)
+		var group = get_tree().get_nodes_in_group("MineLayer")
+		for node in group: 
+			_set_tree_visible(node, true)
+		#get_tree().set_group("MineLayer", "visible", true)
+		for key in LayerTrees:
+			var sub_panel = get_node_or_null("../UIRoot/UIgrabbable/hmdUI/UIDefinition/" + key)
+			if sub_panel:
+				_set_tree_state(sub_panel, false)
 	else:
 		var target_node : Node3D = LayerNodes[value]
-		for i in LayerNodes:
-			if i == target_node:
-				i.visible = true
-			else:
-				i.visible = false
+		var target_subpanel = get_node_or_null("../UIRoot/UIgrabbable/hmdUI/UIDefinition/" + LayerNames[value])
+		target_node.visible = true
+		if target_subpanel:
+			_set_tree_state(target_subpanel, true)
+		
+		for key in LayerTrees:
+			var sub_panel = get_node_or_null("../UIRoot/UIgrabbable/hmdUI/UIDefinition/" + key)
+			if LayerTrees[key] != target_node:
+				LayerTrees[key].visible = false
+				
+				if sub_panel:
+					_set_tree_state(sub_panel, false)
+		
+		#for i in LayerNodes:
+			#if i == target_node:
+				#i.visible = true
+			#else:
+				#i.visible = false
+#
+func _on_sublayer_selected(param: String, value: int):
+	var target_node = get_node_or_null("../ObstacleRoot/MineModel3D/" + param)
+	if target_node:
+		var sublayers = target_node.get_children()
+		if (value == -1):
+			for i in sublayers:
+				if ((i is Node3D) or (i is MeshInstance3D)):
+					i.visible = true
+		else:
+			if value < sublayers.size():
+				var target_sublayer = sublayers[value]
+				target_sublayer.visible = true
+				for i in sublayers:
+					if i != target_sublayer and ((i is Node3D) or (i is MeshInstance3D)):
+						i.visible = false
+		
+
+#---------tree navigation functions------------
+
+# subtree enable/dissable (pass in node and true for enabled, false for disabled)
+func _set_tree_state(node: Node, switch: bool, is_root: bool = true):
+	if  (node is Node3D) && is_root:
+		#node.process_mode = Node.PROCESS_MODE_INHERIT
+		node.visible = switch
+	if node is UIWidget:
+		node.set_enabled(switch)
+	if node is CollisionShape3D:
+		node.disabled = !switch
+	if (node.get_child_count() > 0):
+		for child in node.get_children():
+			_set_tree_state(child, switch, false)
+
+# set entire tree to visible. Don't use on panel nodes (purposefully hidden nodes)
+func _set_tree_visible(node: Node, switch: bool):
+	if (node is Node3D) or (node is MeshInstance3D):
+		node.visible = switch
+	if (node.get_child_count() > 0):
+		for child in node.get_children():
+				_set_tree_visible(child, switch)
+				
+# ----init functions------
+func _init_subpanels() -> void:
+	_on_ui_parameter_updated("Mine_Sections", -1)

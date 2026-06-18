@@ -8,47 +8,45 @@ extends Node
 signal position_updated(pos: Vector3, dir: Vector3, sender_id: int)
 signal position_set(sender_id: int)
 
-const SENDER_ID := 1
-var _camera: Camera3D
+const SENDER_ID := 1 # hard set to ID 1 (no inate id like hmd)
 
+# container variables
+var _camera: Camera3D
 var mouse_pos
 var ray_origin
 var ray_dir
 var _mouse_held := false
 
-func _ready() -> void:
+
+func _ready() -> void: # set active camera to set up raytrace
 	_camera = get_viewport().get_camera_3d()
 	if _camera == null:
 		printerr("MouseInputBridge: no active camera found")
 
 func _process(_delta: float) -> void:
-	if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		return
+	_active_input() # fires every frame for continuous movement of selected object
 
-	_get_mouse_pos()
-	_get_ray_origin()
-	_get_ray_dir()
 
-	_ui_root.on_position_updated(ray_origin, ray_dir, SENDER_ID)
-	position_updated.emit(ray_origin, ray_dir, SENDER_ID)
-
-func _input(event: InputEvent) -> void:
-	if not (event is InputEventMouseButton):
-		return
-	if event.button_index != MOUSE_BUTTON_LEFT:
-		return
-	_mouse_held = event.pressed
-	if not event.pressed:
+func _input(event: InputEvent) -> void: # fire position set once on mouse button release
+	if (event is InputEventMouseButton) && (event.button_index == MOUSE_BUTTON_LEFT) && (event.is_released()):
 		_ui_root.on_position_set(SENDER_ID)
 		position_set.emit(SENDER_ID)
 
+func _active_input(): # tracks what the mouse is aiming at and continally fires position updated
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			_get_mouse_pos()
+			_get_ray_origin()
+			_get_ray_dir()
+			_ui_root.on_position_updated(ray_origin, ray_dir, SENDER_ID)
+			position_updated.emit(ray_origin, ray_dir, SENDER_ID)
+
+# mimick the data the hmd controler is sending via ray traing from camera 
+# (sends to SpacialResolver via UIRoot for contact detection 
 func _get_mouse_pos():
 	mouse_pos = get_viewport().get_mouse_position()
 	return mouse_pos
-
 func _get_ray_origin():
 	ray_origin = _camera.project_ray_origin(mouse_pos)
 	return ray_origin
-	
 func _get_ray_dir():
 	ray_dir = _camera.project_ray_normal(mouse_pos)
