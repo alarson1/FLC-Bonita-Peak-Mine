@@ -87,7 +87,8 @@ const LAYOUT := {
 			"bg_scale": Vector2(1.0, 1.0),
 			"cell_padding": Vector2(0.0, 0.0),
 			"items": [
-				{"type": "dropdown", "name": "UISubLayerDropdown", "label": "Sub-Sections", "items": ["All", "Sunnyside_no7_sketch", "Sunnyside_No6_sketch", "Sunnyside_No5", "Sunnyside_No4", "Sunnyside_No3", "Sunnyside_UpperMidway", "Sunnyside_LowerMidway", "Sunnyside_No2", "Sunnyside_No1", "Sunnyside_A_Level", "SS_CLevel_2450", "B_Level_Fixed", "Sunnyside_CLevel", "D_Level_Updated", "E_Level_Updated", "F_Level_Updated_2", "Sunnyside_G_Level_Updated", "Sunnyside_HLevel", "Sunnyside_I_Level", "Sunnyside_ATLevel", "AmericanTunnel", "RSE_2890_Drift", "RSE_3710_Drift", "Terry_Shaft", "Washington_VerticalShaft", "AT_WashingtonShaft", "Gold_Prince_Shaft", "Sunnyside_Raises_OrePass"]},
+				{"type": "dropdown", "name": "UISubLayerDropdown#1", "label": "Sub-Sections#1", "items": ["All", "Sunnyside_no7_sketch", "Sunnyside_No6_sketch", "Sunnyside_No5", "Sunnyside_No4", "Sunnyside_No3", "Sunnyside_UpperMidway", "Sunnyside_LowerMidway", "Sunnyside_No2", "Sunnyside_No1", "Sunnyside_A_Level", "SS_CLevel_2450", "B_Level_Fixed", "Sunnyside_CLevel", "D_Level_Updated"]},
+				{"type": "dropdown", "name": "UISubLayerDropdown#2", "label": "Sub-Sections#2", "items": ["All", "E_Level_Updated", "F_Level_Updated_2", "Sunnyside_G_Level_Updated", "Sunnyside_HLevel", "Sunnyside_I_Level", "Sunnyside_ATLevel", "AmericanTunnel", "RSE_2890_Drift", "RSE_3710_Drift", "Terry_Shaft", "Washington_VerticalShaft", "AT_WashingtonShaft", "Gold_Prince_Shaft", "Sunnyside_Raises_OrePass"]},
 			]
 		},
 		{
@@ -102,7 +103,8 @@ const LAYOUT := {
 			"bg_scale": Vector2(1.0, 1.0),
 			"cell_padding": Vector2(0.0, 0.0),
 			"items": [
-				{"type": "dropdown", "name": "UISubLayerDropdown", "label": "Sub-Sections", "items": ["All", "Surface_Shafts", "Mogul_4_5_raises", "Level2Raise", "Brenneman_Shaft", "Brenneman_D_B_Raises", "Brenneman_B_No1_Raise", "Brenneman_900_Raise", "Midway_Raises", "BrennemanBLevel_Digitize", "BrennemanCLevel_Digitize", "BrennemanDLevel_Digitized", "Brenneman_D_Sublevel", "MogulLevel5Digitize", "MogulLevel4Digitize", "MogulLevel3", "Mogul_Level2_Updated", "Upper_Midway_Mogul", "Lower_Midway_Mogul", "Mogul_No1_Updated"]},
+				{"type": "dropdown", "name": "UISubLayerDropdown#1", "label": "Sub-Sections#1", "items": ["All", "Surface_Shafts", "Mogul_4_5_raises", "Level2Raise", "Brenneman_Shaft", "Brenneman_D_B_Raises", "Brenneman_B_No1_Raise", "Brenneman_900_Raise", "Midway_Raises", "BrennemanBLevel_Digitize", "BrennemanCLevel_Digitize"]},
+				{"type": "dropdown", "name": "UISubLayerDropdown#2", "label": "Sub-Sections#2", "items": ["All", "BrennemanDLevel_Digitized", "Brenneman_D_Sublevel", "MogulLevel5Digitize", "MogulLevel4Digitize", "MogulLevel3", "Mogul_Level2_Updated", "Upper_Midway_Mogul", "Lower_Midway_Mogul", "Mogul_No1_Updated"]},
 			]
 		},
 	]
@@ -149,7 +151,7 @@ const BINDINGS := {
 				"GK_Sampson_Level": 2,
 				"Gold_King_No1_Level": 3,
 				"GK_Sampson_Level_No2": 4,
-				"GK_No2_Level":5,
+				"GK_No2_Level": 5,
 				"GK_No3_Level": 6,
 				"GK_Midway_Level": 7,
 				"GK_No4_Level": 8,
@@ -171,8 +173,8 @@ const BINDINGS := {
 		},
 		{
 			"panel": "Sunnyside_Mine",
-			"dropdown": "UISubLayerDropdown",
-			"param": "Sunnyside_Mine",
+			"dropdown": "UISubLayerDropdown#1",
+			"param": "Sunnyside_Mine#1",
 			"options": {
 				"All": -1,
 				"Sunnyside_no7_sketch": 0,
@@ -189,6 +191,14 @@ const BINDINGS := {
 				"B_Level_Fixed": 11,
 				"Sunnyside_CLevel": 12,
 				"D_Level_Updated": 13,
+			}
+		},
+		{
+			"panel": "Sunnyside_Mine",
+			"dropdown": "UISubLayerDropdown#2",
+			"param": "Sunnyside_Mine#2",
+			"options": {
+				"All": -1,
 				"E_Level_Updated": 14,
 				"F_Level_Updated_2": 15,
 				"Sunnyside_G_Level_Updated": 16,
@@ -207,8 +217,8 @@ const BINDINGS := {
 		},
 		{
 			"panel": "Mogul_Mine_and_Brenneman_Shaft",
-			"dropdown": "UISubLayerDropdown",
-			"param": "Mogul_Mine_and_Brenneman_Shaft",
+			"dropdown": "UISubLayerDropdown#1",
+			"param": "Mogul_Mine_and_Brenneman_Shaft#1",
 			"options": {
 				"All": -1,
 				"Surface_Shafts": 0,
@@ -221,6 +231,14 @@ const BINDINGS := {
 				"Midway_Raises": 7,
 				"BrennemanBLevel_Digitize": 8,
 				"BrennemanCLevel_Digitize": 9,
+			}
+		},
+		{
+			"panel": "Mogul_Mine_and_Brenneman_Shaft",
+			"dropdown": "UISubLayerDropdown#2",
+			"param": "Mogul_Mine_and_Brenneman_Shaft#2",
+			"options": {
+				"All": -1,
 				"BrennemanDLevel_Digitized": 10,
 				"Brenneman_D_Sublevel": 11,
 				"MogulLevel5Digitize": 12,

@@ -56,8 +56,10 @@ func _ready():
 		"Mine_Sections": self._on_layer_selected,
 		"Gold_King_Mine": self._on_sublayer_selected,
 		"Gold_Prince": self._on_sublayer_selected,
-		"Sunnyside_Mine": self._on_sublayer_selected,
-		"Mogul_Mine_and_Brenneman_Shaft": self._on_sublayer_selected,
+		"Sunnyside_Mine#1": self._on_sublayer_selected,
+		"Sunnyside_Mine#2": self._on_sublayer_selected,
+		"Mogul_Mine_and_Brenneman_Shaft#1": self._on_sublayer_selected,
+		"Mogul_Mine_and_Brenneman_Shaft#2": self._on_sublayer_selected,
 	}
 	
 	call_deferred("_init_subpanels") # initialize sub-layer panels to inactive after UIDefinitions is fully built
@@ -146,7 +148,7 @@ func _on_layer_selected(value: int) -> void:
 				#i.visible = false
 #
 func _on_sublayer_selected(param: String, value: int):
-	var target_node = get_node_or_null("../ObstacleRoot/MineModel3D/" + param)
+	var target_node = get_node_or_null("../ObstacleRoot/MineModel3D/" + param.get_slice("#",0))
 	if target_node:
 		var sublayers = target_node.get_children()
 		if (value == -1):
@@ -154,7 +156,7 @@ func _on_sublayer_selected(param: String, value: int):
 				if ((i is Node3D) or (i is MeshInstance3D)):
 					i.visible = true
 		else:
-			if value < sublayers.size():
+			if (value < sublayers.size()) && (value > -1):
 				var target_sublayer = sublayers[value]
 				target_sublayer.visible = true
 				for i in sublayers:
