@@ -4,6 +4,7 @@ extends Node
 #@onready var _hmd_ui = $"../NoodlesRoot/UIRoot/UIGrabbable/hmdUI"
 @onready var _hmd_ui = $"../../NoodlesRoot/UIRoot/UIgrabbable/hmdUI"
 @onready var _mine_model_3D = $"../../NoodlesRoot/ObstacleRoot/MineModel3D"
+@onready var _obstacle_root = $"../ObstacleRoot"
 var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
@@ -12,13 +13,13 @@ var _UI_ACTIONS: Dictionary
 # _on_scale_changed config
 #const scale_min := 0.1
 @onready var base_scale = _mine_model_3D.scale
-@onready var scale_min : Vector3 = 0.1 * base_scale
+@onready var scale_min : Vector3 = 0.0 * base_scale
 #const scale_max := 2.0
 @onready var scale_max : Vector3 = 2.0 * base_scale
 
 # _on_rotation_changed config
-const rotation_min := 0.0
-const rotation_max := 360.0
+const rotation_min := -180.0
+const rotation_max := 180.0
 
 # _on_Layer_selected config
 @onready var LayerTrees : Dictionary[String,Node3D] = {
@@ -95,19 +96,19 @@ func _on_rotation_changed(value: float) -> void:
 # translation functions
 # value is the stepper's absolute position (sets X directly)
 func _on_translate_x_changed(value: float) -> void:
-	var pos : Vector3 = _mine_model_3D.position
+	var pos : Vector3 = _obstacle_root.position
 	pos.x = value
-	_mine_model_3D.position = pos
+	_obstacle_root.position = pos
 
 func _on_translate_y_changed(value: float) -> void:
-	var pos: Vector3 = _mine_model_3D.position
+	var pos: Vector3 = _obstacle_root.position
 	pos.y = value
-	_mine_model_3D.position = pos
+	_obstacle_root.position = pos
 
 func _on_translate_z_changed(value: float) -> void:
-	var pos: Vector3 = _mine_model_3D.position
+	var pos: Vector3 = _obstacle_root.position
 	pos.z = value
-	_mine_model_3D.position = pos
+	_obstacle_root.position = pos
 
 # ---------Layer Select Functions----------
 
