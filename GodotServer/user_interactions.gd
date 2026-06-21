@@ -1,27 +1,25 @@
 extends Node
 
 #--------External References----------
-#@onready var _hmd_ui = $"../NoodlesRoot/UIRoot/UIGrabbable/hmdUI"
 @onready var _hmd_ui = $"../../NoodlesRoot/UIRoot/UIgrabbable/hmdUI"
 @onready var _mine_model_3D = $"../../NoodlesRoot/ObstacleRoot/MineModel3D"
 @onready var _obstacle_root = $"../ObstacleRoot"
+@onready var _terrain_mesh = $"../ObstacleRoot/MineModel3D/MeshInstance3D"
 var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
 var _UI_ACTIONS: Dictionary
 
 # _on_scale_changed config
-#const scale_min := 0.1
 @onready var base_scale = _mine_model_3D.scale
 @onready var scale_min : Vector3 = 0.0 * base_scale
-#const scale_max := 2.0
 @onready var scale_max : Vector3 = 2.0 * base_scale
 
 # _on_rotation_changed config
 const rotation_min := -180.0
 const rotation_max := 180.0
 
-# _on_Layer_selected config
+# _on_Layer_selected/sublayer_selected config
 @onready var LayerTrees : Dictionary[String,Node3D] = {
 	"Red_and_Bonita_Mine": $"../ObstacleRoot/MineModel3D/RedBonitaMine",
 	"Gold_King": $"../ObstacleRoot/MineModel3D/Gold_King_Mine",
@@ -31,14 +29,11 @@ const rotation_max := 180.0
 	"Pride_Of_Bonita_Region": $"../ObstacleRoot/MineModel3D/Pride_of_Bonita",
 	"Updated_Bulkheads": $"../ObstacleRoot/MineModel3D/Bulkheads",
 }
-#@onready var LayerNodes : Array[Node3D] = [
-	#$"../ObstacleRoot/MineModel3D/RedBonitaMine", $"../ObstacleRoot/MineModel3D/Gold_King_Mine",
-	#$"../ObstacleRoot/MineModel3D/Gold_Prince", $"../ObstacleRoot/MineModel3D/Sunnyside_Mine",
-	#$"../ObstacleRoot/MineModel3D/Mogul_Mine_and_Brenneman_Shaft", $"../ObstacleRoot/MineModel3D/Pride_of_Bonita",
-	#$"../ObstacleRoot/MineModel3D/Bulkheads",
-#]
 @onready var LayerNodes : Array[Node3D] = LayerTrees.values()
 @onready var LayerNames : Array[String] = LayerTrees.keys()
+
+# _on_terrain_toggled config
+var toggle : bool = true
 
 # ---------- _ready() -----------------
 # Called when the node enters the scene tree for the first time.
@@ -60,6 +55,7 @@ func _ready():
 		"Sunnyside_Mine#2": self._on_sublayer_selected,
 		"Mogul_Mine_and_Brenneman_Shaft#1": self._on_sublayer_selected,
 		"Mogul_Mine_and_Brenneman_Shaft#2": self._on_sublayer_selected,
+		"Terrain": self._on_terrain_toggled,
 	}
 	
 	call_deferred("_init_subpanels") # initialize sub-layer panels to inactive after UIDefinitions is fully built
@@ -84,14 +80,12 @@ func _on_ui_parameter_updated(param: String, value: Variant) -> void:
 
 # scale and rotation
 func _on_scale_changed(value: float) -> void:
-	# remap 0-1 slider scale to 0.1-3 x
+	# map 0.1 - 2 stepper settings to 0->2X initial model size
 	var range = value / 2
-	#var scale_val : float = lerp(scale_min, scale_max, value)
-	#_mine_model_3D.scale = Vector3.ONE * scale_val
 	_mine_model_3D.scale  = lerp(scale_min, scale_max, range)
 
 func _on_rotation_changed(value: float) -> void:
-	# remap 0-1 slider scale to degrees (0-360)
+	# remap 0-1 stepper scale to degrees (-180-180)
 	var degrees : float = lerp(rotation_min, rotation_max, value)
 	_mine_model_3D.rotation_degrees.y = degrees
 
@@ -111,6 +105,11 @@ func _on_translate_z_changed(value: float) -> void:
 	var pos: Vector3 = _obstacle_root.position
 	pos.z = value
 	_obstacle_root.position = pos
+
+# Terrain Toggle
+func _on_terrain_toggled(vale : int): # gets passed value but doesn't need it, maybe remove later
+	toggle = !toggle
+	_terrain_mesh.visible = toggle
 
 # ---------Layer Select Functions----------
 

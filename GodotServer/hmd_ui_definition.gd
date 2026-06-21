@@ -8,7 +8,7 @@ const LAYOUT := {
 		{
 			"name": "ControlsPanel",
 			"title": "Controls",
-			"pos": Vector3(-1.5, 1, 0),
+			"pos": Vector3(-2.2, 1, 0),
 			"cols": 2,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -27,12 +27,14 @@ const LAYOUT := {
 				{"type": "stepper", "name": "UI_YStepper", "label": "Y-Translation", "min": -10, "max": 10.0, "value": 0.0, "step": 0.5},
 				# z translation
 				{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -10, "max": 10.0, "value": 0.0, "step": 0.5},
+				# terrain toggle
+				{"type": "button", "name": "UITerrainToggle", "label": "Toggle Terrain"},
 			]
 		},
 		{
 			"name": "LayerSelectionPanel",
 			"title": "Layer_Selection",
-			"pos": Vector3(1.5, 1, 0),
+			"pos": Vector3(0.5, 1, 0),
 			"cols": 1,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -42,13 +44,13 @@ const LAYOUT := {
 			"cell_padding": Vector2(0.0, 0.0),
 			"items": [
 				# mine select menu
-				{"type": "dropdown", "name": "UIMineLayerDropdown", "label": "Mine_Sections", "items": ["All", "Red_and_Bonita_Mine", "Gold_King", "Gold_Prince", "Sunnyside_Mine", "Mogul_Mine_and_Brenneman_Shaft", "Pride_Of_Bonita_Region", "Updated_Bulkheads"]},
+				{"type": "dropdown", "name": "UIMineLayerDropdown", "label": "Mine Sections", "items": ["All", "Red_and_Bonita_Mine", "Gold_King", "Gold_Prince", "Sunnyside_Mine", "Mogul_Mine_and_Brenneman_Shaft", "Pride_Of_Bonita_Region", "Updated_Bulkheads"]},
 			]
 		},
 		{
 			"name": "Gold_King",
 			"title": "Gold_King_Layers",
-			"pos": Vector3(4.5, 1, 0),
+			"pos": Vector3(2.0, 1, 0),
 			"cols": 3,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -63,7 +65,7 @@ const LAYOUT := {
 		{
 			"name": "Gold_Prince",
 			"title": "Gold_Prince_Layers",
-			"pos": Vector3(4.5, 1, 0),
+			"pos": Vector3(2.0, 1, 0),
 			"cols": 2,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -78,7 +80,7 @@ const LAYOUT := {
 		{
 			"name": "Sunnyside_Mine",
 			"title": "Sunnyside_Mine_Layers",
-			"pos": Vector3(4.5, 1, 0),
+			"pos": Vector3(2.0, 1, 0),
 			"cols": 3,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -94,7 +96,7 @@ const LAYOUT := {
 		{
 			"name": "Mogul_Mine_and_Brenneman_Shaft",
 			"title": "Mogul_Mine_and_Brenneman_Shaft_Layers",
-			"pos": Vector3(4.5, 1, 0),
+			"pos": Vector3(2.0, 1, 0),
 			"cols": 3,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -251,6 +253,14 @@ const BINDINGS := {
 			}
 		},
 	],
+	"buttons": [
+	{
+		"panel": "ControlsPanel",
+		"button": "UITerrainToggle",
+		"param": "Terrain",
+		"value": 0,
+	},
+],
 }
 
 static func get_layout() -> Dictionary:
