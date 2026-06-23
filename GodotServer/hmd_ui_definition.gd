@@ -8,7 +8,7 @@ const LAYOUT := {
 		{
 			"name": "ControlsPanel",
 			"title": "Controls",
-			"pos": Vector3(-2.2, 1, 0),
+			"pos": Vector3(-2.2, 1.5, 0),
 			"cols": 2,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -34,7 +34,7 @@ const LAYOUT := {
 		{
 			"name": "LayerSelectionPanel",
 			"title": "Layer_Selection",
-			"pos": Vector3(0.5, 1, 0),
+			"pos": Vector3(0.5, 1.5, 0),
 			"cols": 1,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -50,7 +50,7 @@ const LAYOUT := {
 		{
 			"name": "Gold_King",
 			"title": "Gold_King_Layers",
-			"pos": Vector3(2.0, 1, 0),
+			"pos": Vector3(2.0, 1.5, 0),
 			"cols": 3,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -65,7 +65,7 @@ const LAYOUT := {
 		{
 			"name": "Gold_Prince",
 			"title": "Gold_Prince_Layers",
-			"pos": Vector3(2.0, 1, 0),
+			"pos": Vector3(2.0, 1.5, 0),
 			"cols": 2,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -80,7 +80,7 @@ const LAYOUT := {
 		{
 			"name": "Sunnyside_Mine",
 			"title": "Sunnyside_Mine_Layers",
-			"pos": Vector3(2.0, 1, 0),
+			"pos": Vector3(2.0, 1.5, 0),
 			"cols": 3,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
@@ -96,7 +96,7 @@ const LAYOUT := {
 		{
 			"name": "Mogul_Mine_and_Brenneman_Shaft",
 			"title": "Mogul_Mine_and_Brenneman_Shaft_Layers",
-			"pos": Vector3(2.0, 1, 0),
+			"pos": Vector3(2.0, 1.5, 0),
 			"cols": 3,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
