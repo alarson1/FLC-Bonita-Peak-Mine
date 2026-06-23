@@ -12,10 +12,10 @@ const LAYOUT := {
 			"cols": 2,
 			"rows": 0,
 			"spacing": Vector2(0.02, 0.02),
-			"padding": Vector2(0.03, 0.03),
+			"padding": Vector2(0.03, 0.03), 
 			"bg_inset": Vector2(0.0, 0.0),
 			"bg_scale": Vector2(1.0, 1.0),
-			"cell_padding": Vector2(0.0, 0.0),
+			"cell_padding": Vector2(0.0, 0.0), 
 			"items": [
 				# scale
 				{"type": "stepper", "name": "UIScaleSlider", "label": "Scale", "min": 0.1, "max": 2, "value": 1, "step": 0.05},
@@ -40,7 +40,7 @@ const LAYOUT := {
 			"spacing": Vector2(0.02, 0.02),
 			"padding": Vector2(0.03, 0.03),
 			"bg_inset": Vector2(0.0, 0.0),
-			"bg_scale": Vector2(1.0, 1.0),
+			"bg_scale": Vector2(1.0, 1.0), # test 1.0
 			"cell_padding": Vector2(0.0, 0.0),
 			"items": [
 				# mine select menu

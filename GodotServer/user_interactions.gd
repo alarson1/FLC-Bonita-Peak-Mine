@@ -161,7 +161,7 @@ func _on_sublayer_selected(param: String, value: int):
 				for i in sublayers:
 					if i != target_sublayer and ((i is Node3D) or (i is MeshInstance3D)):
 						i.visible = false
-		
+		_toggle_dropdown(param)
 
 #---------tree navigation functions------------
 
@@ -178,7 +178,7 @@ func _set_tree_state(node: Node, switch: bool, is_root: bool = true):
 		for child in node.get_children():
 			_set_tree_state(child, switch, false)
 
-# set entire tree to visible. Don't use on panel nodes (purposefully hidden nodes)
+# set entire tree to visible. Don't use on panel nodes (contain purposefully hidden children nodes)
 func _set_tree_visible(node: Node, switch: bool):
 	if (node is Node3D) or (node is MeshInstance3D):
 		node.visible = switch
@@ -186,6 +186,18 @@ func _set_tree_visible(node: Node, switch: bool):
 		for child in node.get_children():
 				_set_tree_visible(child, switch)
 				
+func _toggle_dropdown(param: String):
+	var target_panel = get_node_or_null("../UIRoot/UIgrabbable/hmdUI/UIDefinition/" + param.get_slice("#",0))
+	if target_panel:
+		var current_dropdown = "UISubLayerDropdown#" + param.get_slice("#",1)
+		_reset_panel(target_panel, current_dropdown)
+
+func _reset_panel(node: Node, target_node: String):
+	for child in node.get_children():
+		if (child is UIDropdown) && (child.name != target_node):
+			child.set_selected_index(0, -1, false)
+			_reset_panel(child, target_node)
+
 # ----init functions------
 func _init_subpanels() -> void:
 	_on_ui_parameter_updated("Mine_Sections", -1)
