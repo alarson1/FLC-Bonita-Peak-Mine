@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dt6hfcpndowm6"]
 
-[ext_resource type="Script" path="res://ui_scene.gd" id="1_t17ji"]
+[ext_resource type="Script" uid="uid://sahu6chd4vrc" path="res://ui_scene.gd" id="1_t17ji"]
 [ext_resource type="Theme" uid="uid://cnlpumos3cl3s" path="res://global_theme.tres" id="2_6x42h"]
 
 [node name="UIRoot" type="Control"]
