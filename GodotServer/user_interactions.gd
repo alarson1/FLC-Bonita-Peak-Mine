@@ -4,7 +4,7 @@ extends Node
 @onready var _hmd_ui = $"../../NoodlesRoot/UIRoot/UIgrabbable/hmdUI"
 @onready var _mine_model_3D = $"../../NoodlesRoot/ObstacleRoot/MineModel3D"
 @onready var _obstacle_root = $"../ObstacleRoot"
-@onready var _terrain_mesh = $"../ObstacleRoot/MineModel3D/MeshInstance3D"
+#@onready var _terrain_mesh = $"../ObstacleRoot/MineModel3D/MeshInstance3D"
 var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
@@ -16,6 +16,7 @@ var _UI_ACTIONS: Dictionary
 @onready var scale_max : Vector3 = 2.0 * base_scale
 
 # _on_rotation_changed config
+@onready var current_rotation = _mine_model_3D.global_rotation_degrees.y
 const rotation_min := -180.0
 const rotation_max := 180.0
 
@@ -33,7 +34,9 @@ const rotation_max := 180.0
 @onready var LayerNames : Array[String] = LayerTrees.keys()
 
 # _on_terrain_toggled config
-var toggle : bool = true
+#var toggle : bool = true
+@onready var mode : Array[MeshInstance3D] = [$"../ObstacleRoot/MineModel3D/MeshInstance3D",$"../ObstacleRoot/MineModel3D/MeshInstance3D2", null]
+var current_mode : int = 0
 
 # ---------- _ready() -----------------
 # Called when the node enters the scene tree for the first time.
@@ -85,9 +88,9 @@ func _on_scale_changed(value: float) -> void:
 	_mine_model_3D.scale  = lerp(scale_min, scale_max, range)
 
 func _on_rotation_changed(value: float) -> void:
-	# remap 0-1 stepper scale to degrees (-180-180)
+	# remap 0-1 stepper scale to degrees (-180->180)
 	var degrees : float = lerp(rotation_min, rotation_max, value)
-	_mine_model_3D.rotation_degrees.y = degrees
+	_mine_model_3D.rotation_degrees.y = current_rotation + degrees
 
 # translation functions
 # value is the stepper's absolute position (sets X directly)
@@ -107,9 +110,15 @@ func _on_translate_z_changed(value: float) -> void:
 	_obstacle_root.position = pos
 
 # Terrain Toggle
-func _on_terrain_toggled(vale : int): # gets passed value but doesn't need it, maybe remove later
-	toggle = !toggle
-	_terrain_mesh.visible = toggle
+#func _on_terrain_toggled(vale : int): # gets passed value but doesn't need it, maybe remove later
+	#toggle = !toggle
+	#_terrain_mesh.visible = toggle
+func _on_terrain_toggled(vale : int):
+	current_mode = (current_mode + 1) % mode.size()
+	for i in range(mode.size()):
+		if mode[i]:
+			mode[i].visible = (i == current_mode)
+
 
 # ---------Layer Select Functions----------
 
