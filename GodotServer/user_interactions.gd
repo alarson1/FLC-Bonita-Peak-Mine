@@ -4,7 +4,8 @@ extends Node
 @onready var _hmd_ui = $"../../NoodlesRoot/UIRoot/UIgrabbable/hmdUI"
 @onready var _mine_model_3D = $"../../NoodlesRoot/ObstacleRoot/MineModel3D"
 @onready var _obstacle_root = $"../ObstacleRoot"
-#@onready var _terrain_mesh = $"../ObstacleRoot/MineModel3D/MeshInstance3D"
+@onready var _terrain_mesh = $"../ObstacleRoot/MineModel3D/TerrainMesh"
+@onready var _aerial_mesh = $"../ObstacleRoot/MineModel3D/AerialMesh"
 var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
@@ -34,9 +35,13 @@ const rotation_max := 180.0
 @onready var LayerNames : Array[String] = LayerTrees.keys()
 
 # _on_terrain_toggled config
-#var toggle : bool = true
-@onready var mode : Array[MeshInstance3D] = [$"../ObstacleRoot/MineModel3D/MeshInstance3D",$"../ObstacleRoot/MineModel3D/MeshInstance3D2", null]
+var toggle : bool = true
+@onready var mode : Array[MeshInstance3D] = [_terrain_mesh, _aerial_mesh, null]
 var current_mode : int = 0
+@onready var terrain_material = _terrain_mesh.get_active_material(0)
+@onready var aerial_material = _aerial_mesh.get_active_material(0)
+var t_alpha = 0.412
+
 
 # ---------- _ready() -----------------
 # Called when the node enters the scene tree for the first time.
@@ -118,6 +123,15 @@ func _on_terrain_toggled(vale : int):
 	for i in range(mode.size()):
 		if mode[i]:
 			mode[i].visible = (i == current_mode)
+	if current_mode == 2:
+		toggle = !toggle
+		if toggle:
+			terrain_material.albedo_color.a = 1
+			aerial_material.albedo_color.a = 1
+		else: 
+			terrain_material.albedo_color.a = t_alpha
+			aerial_material.albedo_color.a = t_alpha
+
 
 
 # ---------Layer Select Functions----------
