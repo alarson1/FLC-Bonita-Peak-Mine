@@ -28,6 +28,10 @@ func _inspect() -> void:
 	print("global scale: ", current_global_scale, ", global rotation: ", current_global_rotation, ", global postion", current_global_position)
 	print("global transform: ", current_global_transform)
 	
+	# mesh properties
+	var vertex_count = self.mesh.surface_get_array_len(0) #test
+	print("vertex count: (TerrainMesh): ", vertex_count) #test
+	
 	# uv properties
 	#if mesh == null:
 		#push_error("No mesh on this node."); return

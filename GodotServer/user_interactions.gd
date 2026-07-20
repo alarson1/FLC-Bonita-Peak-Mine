@@ -35,7 +35,7 @@ const rotation_max := 180.0
 @onready var LayerNames : Array[String] = LayerTrees.keys()
 
 # _on_terrain_toggled config
-var toggle : bool = true
+var toggle : bool = false
 @onready var mode : Array[MeshInstance3D] = [_terrain_mesh, _aerial_mesh, null]
 var current_mode : int = 0
 @onready var terrain_material = _terrain_mesh.get_active_material(0)
@@ -125,12 +125,14 @@ func _on_terrain_toggled(vale : int):
 			mode[i].visible = (i == current_mode)
 	if current_mode == 2:
 		toggle = !toggle
-		if toggle:
-			terrain_material.albedo_color.a = 1
-			aerial_material.albedo_color.a = 1
-		else: 
-			terrain_material.albedo_color.a = t_alpha
-			aerial_material.albedo_color.a = t_alpha
+		terrain_material.transparency = toggle
+		terrain_material.transparency = toggle
+		#if toggle:
+			#terrain_material.albedo_color.a = 1
+			#aerial_material.albedo_color.a = 1
+		#else: 
+			#terrain_material.albedo_color.a = t_alpha
+			#aerial_material.albedo_color.a = t_alpha
 
 
 

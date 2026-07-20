@@ -1,13 +1,13 @@
 extends UIWidget
 
 # --------- direct connect to label (static) ----------
-var _bg: Sprite3D
 
 # config:
 @export_multiline var display_text : String = "default text"
 @export var bg_padding := Vector2(0.2, 0.2)
 @onready var _display = get_node_or_null("Display")
 @onready var display_position = _display.position
+var _bg: Sprite3D
 
 func _ready() -> void:
 	
@@ -24,7 +24,17 @@ func _ready() -> void:
 func _setup_display() -> void:
 	_display.mesh = _display.mesh.duplicate()
 	_display.mesh.text = display_text
-	_display.mesh.text = display_text
+	
+	await get_tree().process_frame
+	var source: TextMesh = _display.mesh
+	var arrays: Array = source.surface_get_arrays(0)
+	var baked := ArrayMesh.new()
+	baked.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	baked.surface_set_material(0, source.material)
+	var vertex_count = baked.surface_get_array_len(0) #test
+	print("vertex count (TextMesh): ", vertex_count) #test
+	baked.resource_name = "BakedText_" + name
+	_display.mesh = baked
 
 func _setup_background() -> void:
 	var tex = load("res://hmdUI/assets/ui_panel_dark.png")
