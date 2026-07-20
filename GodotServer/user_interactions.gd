@@ -126,7 +126,7 @@ func _on_terrain_toggled(vale : int):
 	if current_mode == 2:
 		toggle = !toggle
 		terrain_material.transparency = toggle
-		terrain_material.transparency = toggle
+		aerial_material.transparency = toggle
 		#if toggle:
 			#terrain_material.albedo_color.a = 1
 			#aerial_material.albedo_color.a = 1
