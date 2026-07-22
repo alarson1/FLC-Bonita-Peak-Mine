@@ -4,7 +4,7 @@ extends Node3D
 signal obstacle_position_set()
 
 @onready var static_bodies = [
-	 $"MineModel3D/BonitaPeakMining/StaticBody3D",
+	$"MineModel3D/BonitaPeakMining/StaticBody3D",
 ]
 
 @onready var _bridge = get_node_or_null("../MouseInputBridge")
