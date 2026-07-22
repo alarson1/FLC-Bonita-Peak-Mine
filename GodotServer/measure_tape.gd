@@ -6,6 +6,7 @@ extends Node3D
 @onready var _p2 = get_node_or_null("Point2")
 @onready var _display = get_node_or_null("Display")
 @onready var _terrain = get_node_or_null("../TerrainMesh")
+@onready var _trace = get_node_or_null("Trace")
 
 # config
 var pos_1 : Vector3
@@ -15,6 +16,7 @@ var distance : float
 var dist_h : float
 var dist_v : float
 var dist : float
+var line_color : Color = Color.YELLOW
 
 # inspector activation
 @export var measure_now: bool = false:
@@ -22,6 +24,8 @@ var dist : float
 		measure_now = false
 		if m:
 			_measure()
+func _ready() -> void:
+	_measure()
 
 # main function
 func _measure() -> void:
@@ -38,8 +42,8 @@ func _measure() -> void:
 	dist_v = diff.y * (1/_terrain.global_transform.basis.get_scale().y)
 	dist = sqrt((dist_h**2) + (dist_v**2))
 	
-	
 	_refresh_display()
+	_refresh_trace()
 	
 func _refresh_display() -> void:
 	_display.position = pos_1 - (diff/2)
@@ -51,3 +55,18 @@ func _refresh_display() -> void:
 	_display.rotation.z = _display.rotation.x
 	_display.rotation.x = 0
 	_display.position.y += 0.1
+
+func _refresh_trace() -> void:
+	var mesh = _trace.mesh as ImmediateMesh
+	mesh.clear_surfaces()
+	
+	var material = StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = line_color
+	
+	mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
+	
+	mesh.surface_add_vertex(pos_1)
+	mesh.surface_add_vertex(pos_2)
+	
+	mesh.surface_end()
