@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dn5iq36rx28il"]
+
+[ext_resource type="ArrayMesh" uid="uid://dhwnlkrd2051f" path="res://source_data/terrain_baked2.res" id="1_206su"]
+
+[node name="AerialMesh" type="MeshInstance3D"]
+transform = Transform3D(0.013383, 0, 0.000386001, 0, 0.010538, 0, -0.000386001, 0, 0.013383, 0, 0, 0)
+visible = false
+mesh = ExtResource("1_206su")
+skeleton = NodePath("")

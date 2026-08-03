@@ -9,7 +9,7 @@ signal obstacle_position_set()
 	$"../Point2",
 ]
 
-@onready var _bridge = get_node_or_null("../../../../MouseInputBridge")
+@onready var _bridge = get_node_or_null("../../../../../MouseInputBridge")
 
 # current visible obstacle index
 var obs_idx = -1  # -1 for no visible obstacle
@@ -35,8 +35,8 @@ func _ready() -> void:
 	
 	# move script
 	_find_all_static_bodies(get_tree().get_root())
-	$"../../../../PositionUpdated".position_updated.connect(_grab_obstacle)
-	$"../../../../PositionSet".position_set.connect(_release_obstacle)
+	$"../../../../../PositionUpdated".position_updated.connect(_grab_obstacle)
+	$"../../../../../PositionSet".position_set.connect(_release_obstacle)
 	set_process(false)  # not using
 	
 	if _bridge:

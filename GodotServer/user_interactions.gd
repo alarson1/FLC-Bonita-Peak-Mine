@@ -4,8 +4,8 @@ extends Node
 @onready var _hmd_ui = $"../../NoodlesRoot/UIRoot/UIgrabbable/hmdUI"
 @onready var _mine_model_3D = $"../../NoodlesRoot/ObstacleRoot/MineModel3D"
 @onready var _obstacle_root = $"../ObstacleRoot"
-@onready var _terrain_mesh = $"../ObstacleRoot/MineModel3D/TerrainMesh"
-@onready var _aerial_mesh = $"../ObstacleRoot/MineModel3D/AerialMesh"
+@onready var _terrain_mesh = $"../ObstacleRoot/MineModel3D/Terrain/TerrainMesh"
+@onready var _aerial_mesh = $"../ObstacleRoot/MineModel3D/Terrain/AerialMesh"
 var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
@@ -23,13 +23,13 @@ const rotation_max := 180.0
 
 # _on_Layer_selected/sublayer_selected config
 @onready var LayerTrees : Dictionary[String,Node3D] = {
-	"Red_and_Bonita_Mine": $"../ObstacleRoot/MineModel3D/RedBonitaMine",
-	"Gold_King": $"../ObstacleRoot/MineModel3D/Gold_King_Mine",
-	"Gold_Prince": $"../ObstacleRoot/MineModel3D/Gold_Prince",
-	"Sunnyside_Mine": $"../ObstacleRoot/MineModel3D/Sunnyside_Mine",
-	"Mogul_Mine_and_Brenneman_Shaft": $"../ObstacleRoot/MineModel3D/Mogul_Mine_and_Brenneman_Shaft",
-	"Pride_Of_Bonita_Region": $"../ObstacleRoot/MineModel3D/Pride_of_Bonita",
-	"Updated_Bulkheads": $"../ObstacleRoot/MineModel3D/Bulkheads",
+	"Red_and_Bonita_Mine": $"../ObstacleRoot/MineModel3D/MineLayers/RedBonitaMine",
+	"Gold_King": $"../ObstacleRoot/MineModel3D/MineLayers/Gold_King_Mine",
+	"Gold_Prince": $"../ObstacleRoot/MineModel3D/MineLayers/Gold_Prince",
+	"Sunnyside_Mine": $"../ObstacleRoot/MineModel3D/MineLayers/Sunnyside_Mine",
+	"Mogul_Mine_and_Brenneman_Shaft": $"../ObstacleRoot/MineModel3D/MineLayers/Mogul_Mine_and_Brenneman_Shaft",
+	"Pride_Of_Bonita_Region": $"../ObstacleRoot/MineModel3D/MineLayers/Pride_of_Bonita",
+	"Updated_Bulkheads": $"../ObstacleRoot/MineModel3D/MineLayers/Bulkheads",
 }
 @onready var LayerNodes : Array[Node3D] = LayerTrees.values()
 @onready var LayerNames : Array[String] = LayerTrees.keys()
@@ -70,7 +70,7 @@ func _ready():
 
 
 # -------------Router-----------------
-# catches the signal and dynamically calls the correct method from your dictionary.
+# catches the signal and dynamically calls the correct method from _UI_ACTIONS
 func _on_ui_parameter_updated(param: String, value: Variant) -> void:
 	"""Catches every parameter_changed signal and dispatches to the associated method."""
 	var action = _UI_ACTIONS.get(param, null)
@@ -78,7 +78,7 @@ func _on_ui_parameter_updated(param: String, value: Variant) -> void:
 		printerr("Parameter %s does not exist in _UI_ACTIONS." % param)
 		return
 	
-	# Call the mapped function, handling both 1-argument and 2-argument functions
+	# calls the mapped function, handling both 1-argument and 2-argument functions
 	if action.get_argument_count() == 1:
 		action.call(value)
 	else:
@@ -170,9 +170,10 @@ func _on_layer_selected(value: int) -> void:
 				#i.visible = true
 			#else:
 				#i.visible = false
-#
+
+# sublayeer selection
 func _on_sublayer_selected(param: String, value: int):
-	var target_node = get_node_or_null("../ObstacleRoot/MineModel3D/" + param.get_slice("#",0))
+	var target_node = get_node_or_null("../ObstacleRoot/MineModel3D/MineLayers/" + param.get_slice("#",0))
 	if target_node:
 		var sublayers = target_node.get_children()
 		if (value == -1):

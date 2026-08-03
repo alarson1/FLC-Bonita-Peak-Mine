@@ -5,12 +5,14 @@ extends Node3D
 @onready var _p1 = get_node_or_null("Point1")
 @onready var _p2 = get_node_or_null("Point2")
 @onready var _display = get_node_or_null("Display")
-@onready var _terrain = get_node_or_null("../TerrainMesh")
+@onready var _terrain = get_node_or_null("../../Terrain/TerrainMesh")
 @onready var _trace = get_node_or_null("Trace")
 
 # config
 var pos_1 : Vector3
 var pos_2 : Vector3
+var lpos_1 : Vector3
+var lpos_2 : Vector3
 var diff : Vector3
 var distance : float
 var dist_h : float
@@ -25,12 +27,16 @@ var line_color : Color = Color.YELLOW
 		if m:
 			_measure()
 func _ready() -> void:
-	_measure()
+	call_deferred("_measure")
+	#_measure()
 
 # main function
 func _measure() -> void:
 	pos_1 = _p1.global_position
 	pos_2 = _p2.global_position
+	
+	lpos_1 = _p1.position
+	lpos_2 = _p2.position
 	
 	distance = pos_1.distance_to(pos_2) * (1/_terrain.global_transform.basis.get_scale().x)
 	print(distance)
@@ -46,7 +52,7 @@ func _measure() -> void:
 	_refresh_trace()
 	
 func _refresh_display() -> void:
-	_display.position = pos_1 - (diff/2)
+	_display.global_position = pos_1 - (diff/2)
 	_display.mesh.text = "distance: " + str(snapped(distance, 0.01)) + "m"
 	
 	var direction : Vector3 = diff.rotated(Vector3.UP, PI / 2.0)
@@ -66,7 +72,7 @@ func _refresh_trace() -> void:
 	
 	mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
 	
-	mesh.surface_add_vertex(pos_1)
-	mesh.surface_add_vertex(pos_2)
+	mesh.surface_add_vertex(lpos_1)
+	mesh.surface_add_vertex(lpos_2)
 	
 	mesh.surface_end()

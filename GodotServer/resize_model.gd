@@ -2,7 +2,7 @@
 extends Node3D
 
 ## temp script to view and change scale of mine model
-# calc needs to be simplified and values pulled straight from mesh and minemodel
+# todo: calc needs to be simplified and values pulled straight from mesh and minemodel
 
 @export var inspect_now: bool = false:
 	set(v):
