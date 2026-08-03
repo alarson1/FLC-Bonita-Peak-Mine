@@ -19,7 +19,7 @@ var dist_h : float
 var dist_v : float
 var dist : float
 var line_color : Color = Color.YELLOW
-var line_width := 0.01
+var line_width := 0.001
 
 # inspector activation
 @export var measure_now: bool = false:
@@ -54,7 +54,8 @@ func _measure() -> void:
 	
 func _refresh_display() -> void:
 	_display.global_position = pos_1 - (diff/2)
-	_display.mesh.text = "distance: " + str(snapped(distance, 0.01)) + "m"
+	#_display.mesh.text = "distance: " + str(snapped(distance, 0.01)) + "m"
+	_display.mesh.text = str(snapped(distance, 0.01)) + "m"
 	
 	var direction : Vector3 = diff.rotated(Vector3.UP, PI / 2.0)
 	var target_look_dir: Vector3 = _display.global_position + direction
@@ -77,32 +78,7 @@ func _refresh_trace() -> void:
 	#mesh.surface_add_vertex(lpos_2)
 	#
 	#mesh.surface_end()
-	
-	#---------------------------------------------------------------------
-	#var side := (lpos_2 - lpos_1).cross(Vector3.UP).normalized() * line_width
-#
-	#var material = StandardMaterial3D.new()
-	#material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	#material.albedo_color = line_color
-#
-	#var st := SurfaceTool.new()
-	#st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	#st.set_material(material)
-#
-	#st.add_vertex(lpos_1 - side)
-	#st.add_vertex(lpos_1 + side)
-	#st.add_vertex(lpos_2 + side)
-	#st.add_vertex(lpos_2 - side)
-#
-	#st.add_index(0)
-	#st.add_index(1)
-	#st.add_index(2)
-	#st.add_index(0)
-	#st.add_index(2)
-	#st.add_index(3)
-#
-	#_trace.mesh = st.commit()
-	#---------------------------------------------------------------
+	#-------------------------------------------------------
 	
 	var dir := (lpos_2 - lpos_1).normalized()
 	var a := dir.cross(Vector3.UP).normalized() * line_width
