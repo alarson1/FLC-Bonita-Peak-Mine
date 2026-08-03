@@ -19,6 +19,7 @@ var dist_h : float
 var dist_v : float
 var dist : float
 var line_color : Color = Color.YELLOW
+var line_width := 0.01
 
 # inspector activation
 @export var measure_now: bool = false:
@@ -63,16 +64,40 @@ func _refresh_display() -> void:
 	_display.position.y += 0.1
 
 func _refresh_trace() -> void:
-	var mesh = _trace.mesh as ImmediateMesh
-	mesh.clear_surfaces()
+	#var mesh = _trace.mesh as ImmediateMesh
+	#mesh.clear_surfaces()
+	#
+	#var material = StandardMaterial3D.new()
+	#material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	#material.albedo_color = line_color
+	#
+	#mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
+	#
+	#mesh.surface_add_vertex(lpos_1)
+	#mesh.surface_add_vertex(lpos_2)
+	#
+	#mesh.surface_end()
 	
+	var side := (lpos_2 - lpos_1).cross(Vector3.UP).normalized() * line_width
+
 	var material = StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.albedo_color = line_color
-	
-	mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
-	
-	mesh.surface_add_vertex(lpos_1)
-	mesh.surface_add_vertex(lpos_2)
-	
-	mesh.surface_end()
+
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	st.set_material(material)
+
+	st.add_vertex(lpos_1 - side)
+	st.add_vertex(lpos_1 + side)
+	st.add_vertex(lpos_2 + side)
+	st.add_vertex(lpos_2 - side)
+
+	st.add_index(0)
+	st.add_index(1)
+	st.add_index(2)
+	st.add_index(0)
+	st.add_index(2)
+	st.add_index(3)
+
+	_trace.mesh = st.commit()
