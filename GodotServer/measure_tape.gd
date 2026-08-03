@@ -78,7 +78,37 @@ func _refresh_trace() -> void:
 	#
 	#mesh.surface_end()
 	
-	var side := (lpos_2 - lpos_1).cross(Vector3.UP).normalized() * line_width
+	#---------------------------------------------------------------------
+	#var side := (lpos_2 - lpos_1).cross(Vector3.UP).normalized() * line_width
+#
+	#var material = StandardMaterial3D.new()
+	#material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	#material.albedo_color = line_color
+#
+	#var st := SurfaceTool.new()
+	#st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	#st.set_material(material)
+#
+	#st.add_vertex(lpos_1 - side)
+	#st.add_vertex(lpos_1 + side)
+	#st.add_vertex(lpos_2 + side)
+	#st.add_vertex(lpos_2 - side)
+#
+	#st.add_index(0)
+	#st.add_index(1)
+	#st.add_index(2)
+	#st.add_index(0)
+	#st.add_index(2)
+	#st.add_index(3)
+#
+	#_trace.mesh = st.commit()
+	#---------------------------------------------------------------
+	
+	var dir := (lpos_2 - lpos_1).normalized()
+	var a := dir.cross(Vector3.UP).normalized() * line_width
+	if a.length() < 0.0001:
+		a = dir.cross(Vector3.RIGHT).normalized() * line_width
+	var b := dir.cross(a).normalized() * line_width
 
 	var material = StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
@@ -88,16 +118,18 @@ func _refresh_trace() -> void:
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	st.set_material(material)
 
-	st.add_vertex(lpos_1 - side)
-	st.add_vertex(lpos_1 + side)
-	st.add_vertex(lpos_2 + side)
-	st.add_vertex(lpos_2 - side)
+	st.add_vertex(lpos_1 - a - b)
+	st.add_vertex(lpos_1 + a - b)
+	st.add_vertex(lpos_1 + a + b)
+	st.add_vertex(lpos_1 - a + b)
+	st.add_vertex(lpos_2 - a - b)
+	st.add_vertex(lpos_2 + a - b)
+	st.add_vertex(lpos_2 + a + b)
+	st.add_vertex(lpos_2 - a + b)
 
-	st.add_index(0)
-	st.add_index(1)
-	st.add_index(2)
-	st.add_index(0)
-	st.add_index(2)
-	st.add_index(3)
+	for i in [0,1,2, 0,2,3,  4,6,5, 4,7,6,  0,4,5, 0,5,1,
+			  1,5,6, 1,6,2,  2,6,7, 2,7,3,  3,7,4, 3,4,0]:
+		st.add_index(i)
 
+	st.generate_normals()
 	_trace.mesh = st.commit()
