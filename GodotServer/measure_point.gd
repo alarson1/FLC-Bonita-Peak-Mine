@@ -1,16 +1,22 @@
 extends UIWidget
-signal measure
 
-#--------------------------------------
+# tracks collision, measure point updates own position,
+# and sends signal to measure_tape
+# portions adapted from ObstacleRoot
+
+# signals
+signal measure
 signal obstacle_position_set()
 
+# external references
 @onready var static_bodies = [
 	$"../Point1",
 	$"../Point2",
 ]
-
 @onready var _bridge = get_node_or_null("../../../../../MouseInputBridge")
+@onready var _mine_body = get_node_or_null("../../../MineLayers/BonitaPeakMining/StaticBody3D")
 
+# config
 # current visible obstacle index
 var obs_idx = -1  # -1 for no visible obstacle
 
@@ -19,21 +25,21 @@ var possession_id = 0
 var dist_from_pos = 0
 var obs_offset = 0
 
-var grabbed_body: Node3D = null
+var grabbed_body: Node3D = null # updates collision body instead of parented ObtsacleRoot
 
-#--------------------------------------
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
-	# connect function
-	var m = func(sender_id: int):
-		emit_signal("measure")
-	activated.connect(m)
+	# connect function -----------------------------
+	# emmiting on activated breaks when the measure point is swept over
+	# instead of being explicitly grabbed (fires grab obstacle but not widget activate
+	# moved to _release_obstacle
+	#var m = func(sender_id: int):
+		#emit_signal("measure")
+	#activated.connect(m)
 	
-	#--------------------------------------
-	
-	# move script
+	# move script ----------------------------------
 	_find_all_static_bodies(get_tree().get_root())
 	$"../../../../../PositionUpdated".position_updated.connect(_grab_obstacle)
 	$"../../../../../PositionSet".position_set.connect(_release_obstacle)
@@ -71,6 +77,8 @@ func _release_obstacle(sender_id: int):
 		possession_id = 0
 		print_debug("%d has released an obstacle." % sender_id)
 		obstacle_position_set.emit()  # to root
+		_toggle_collision_body(_mine_body, true)
+		emit_signal("measure")
 
 	
 func _move_obstacle(pos: Vector3, dir: Vector3):
@@ -103,6 +111,7 @@ func check_collision(from_pos: Vector3, direction: Vector3, distance: float=50) 
 	dist_from_pos = abs(from_pos.distance_to(result.position))
 	obs_offset = result.position - result.collider.global_position
 	grabbed_body = result.collider
+	_toggle_collision_body(_mine_body, false)
 	return true
 	
 func _find_all_static_bodies(node: Node) -> void:
@@ -110,3 +119,6 @@ func _find_all_static_bodies(node: Node) -> void:
 		print("StaticBody: ", node.name, " ID: ", node.get_instance_id(), " Layer: ", node.collision_layer)
 	for child in node.get_children():
 		_find_all_static_bodies(child)
+
+func _toggle_collision_body(static_body : StaticBody3D, enabled : bool):
+	static_body.get_node("CollisionShape3D").disabled = !enabled

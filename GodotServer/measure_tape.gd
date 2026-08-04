@@ -1,6 +1,8 @@
 @tool
 extends Node3D
 
+# calculates distance and generates display
+
 #external references
 @onready var _p1 = get_node_or_null("Point1")
 @onready var _p2 = get_node_or_null("Point2")
@@ -78,6 +80,9 @@ func _refresh_trace() -> void:
 	#mesh.surface_add_vertex(lpos_2)
 	#
 	#mesh.surface_end()
+	
+	# ImmediateMesh doesnt come across to client side withought surfaces,
+	# need to generate 3D mesh 
 	#-------------------------------------------------------
 	
 	var dir := (lpos_2 - lpos_1).normalized()
