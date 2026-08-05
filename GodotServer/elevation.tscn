@@ -112,6 +112,7 @@ depth = 0.01
 [sub_resource type="TextMesh" id="TextMesh_i0w85"]
 material = SubResource("StandardMaterial3D_3udig")
 text = "Elevation"
+depth = 0.02
 
 [node name="elevation" type="Node3D"]
 
