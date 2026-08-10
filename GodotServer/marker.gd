@@ -35,6 +35,9 @@ func _setup_display() -> void:
 	#print("vertex count (TextMesh): ", vertex_count) #test
 	#baked.resource_name = "BakedText_" + name
 	#_display.mesh = baked
+	
+	# debug
+	
 
 func _setup_background() -> void:
 	var tex = load("res://hmdUI/assets/ui_panel_dark.png")
