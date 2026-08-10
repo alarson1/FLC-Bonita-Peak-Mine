@@ -6,6 +6,8 @@ extends Node
 @onready var _obstacle_root = $"../ObstacleRoot"
 @onready var _terrain_mesh = $"../ObstacleRoot/MineModel3D/Terrain/TerrainMesh"
 @onready var _aerial_mesh = $"../ObstacleRoot/MineModel3D/Terrain/AerialMesh"
+@onready var _grabb_coll = $"../UIRoot/UIgrabbable/CollisionShape3D"
+@onready var _vrpn_link = $"../UIRoot/UIgrabbable/VRPNLink"
 var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
@@ -36,7 +38,7 @@ const rotation_max := 180.0
 
 # _on_terrain_toggled config
 var toggle : bool = false
-@onready var mode : Array[MeshInstance3D] = [_terrain_mesh, _aerial_mesh, null]
+@onready var mode : Array[MeshInstance3D] = [_aerial_mesh, _terrain_mesh, null]
 var current_mode : int = 0
 @onready var terrain_material = _terrain_mesh.get_active_material(0)
 @onready var aerial_material = _aerial_mesh.get_active_material(0)
@@ -64,6 +66,7 @@ func _ready():
 		"Mogul_Mine_and_Brenneman_Shaft#1": self._on_sublayer_selected,
 		"Mogul_Mine_and_Brenneman_Shaft#2": self._on_sublayer_selected,
 		"Terrain": self._on_terrain_toggled,
+		"lock": self._on_lock,
 	}
 	
 	call_deferred("_init_subpanels") # initialize sub-layer panels to inactive after UIDefinitions is fully built
@@ -115,9 +118,6 @@ func _on_translate_z_changed(value: float) -> void:
 	_obstacle_root.position = pos
 
 # Terrain Toggle
-#func _on_terrain_toggled(vale : int): # gets passed value but doesn't need it, maybe remove later
-	#toggle = !toggle
-	#_terrain_mesh.visible = toggle
 func _on_terrain_toggled(vale : int):
 	current_mode = (current_mode + 1) % mode.size()
 	for i in range(mode.size()):
@@ -127,14 +127,13 @@ func _on_terrain_toggled(vale : int):
 		toggle = !toggle
 		terrain_material.transparency = toggle
 		aerial_material.transparency = toggle
-		#if toggle:
-			#terrain_material.albedo_color.a = 1
-			#aerial_material.albedo_color.a = 1
-		#else: 
-			#terrain_material.albedo_color.a = t_alpha
-			#aerial_material.albedo_color.a = t_alpha
 
-
+# UI position lock
+func _on_lock(value):
+	if value == 0:
+		_grabb_coll.disabled = !_grabb_coll.disabled
+	elif value == 1:
+		_vrpn_link.tracking = !_vrpn_link.tracking
 
 # ---------Layer Select Functions----------
 
@@ -164,12 +163,6 @@ func _on_layer_selected(value: int) -> void:
 				
 				if sub_panel:
 					_set_tree_state(sub_panel, false)
-		
-		#for i in LayerNodes:
-			#if i == target_node:
-				#i.visible = true
-			#else:
-				#i.visible = false
 
 # sublayeer selection
 func _on_sublayer_selected(param: String, value: int):

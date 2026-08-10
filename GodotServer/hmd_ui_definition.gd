@@ -109,6 +109,22 @@ const LAYOUT := {
 				{"type": "dropdown", "name": "UISubLayerDropdown#2", "label": "Sub-Sections#2", "items": ["All", "BrennemanDLevel_Digitized", "Brenneman_D_Sublevel", "MogulLevel5Digitize", "MogulLevel4Digitize", "MogulLevel3", "Mogul_Level2_Updated", "Upper_Midway_Mogul", "Lower_Midway_Mogul", "Mogul_No1_Updated"]},
 			]
 		},
+		{
+			"name": "UIPositionLock",
+			"title": "",
+			"pos": Vector3(-2.62, 2, 0),
+			"cols": 2,
+			"rows": 0,
+			"spacing": Vector2(0.02, 0.02),
+			"padding": Vector2(0.03, 0.03), 
+			"bg_inset": Vector2(0.0, 0.0),
+			"bg_scale": Vector2(1.0, 1.0),
+			"cell_padding": Vector2(0.0, 0.0), 
+			"items": [
+				{"type": "button", "name": "lock", "label": ""},
+				{"type": "button", "name": "vrpn", "label": ""},
+			]
+		},
 	]
 }
 
@@ -259,6 +275,18 @@ const BINDINGS := {
 		"button": "UITerrainToggle",
 		"param": "Terrain",
 		"value": 0,
+	},
+	{
+		"panel": "UIPositionLock",
+		"button": "lock",
+		"param": "lock",
+		"value": 0,
+	},
+	{
+		"panel": "UIPositionLock",
+		"button": "vrpn",
+		"param": "lock",
+		"value": 1,
 	},
 ],
 }
