@@ -28,6 +28,10 @@ func _inspect() -> void:
 	print("global scale: ", current_global_scale, ", global rotation: ", current_global_rotation, ", global postion", current_global_position)
 	print("global transform: ", current_global_transform)
 	
+	var center_local = aabb.position + aabb.size * 0.5
+	var center_world = global_transform * center_local
+	print("box center world: ", center_world)
+	
 	# mesh properties
 	var vertex_count = self.mesh.surface_get_array_len(0) #test
 	print("vertex count: (TerrainMesh): ", vertex_count) #test

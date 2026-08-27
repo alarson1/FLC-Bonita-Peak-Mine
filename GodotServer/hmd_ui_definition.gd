@@ -29,6 +29,8 @@ const LAYOUT := {
 				{"type": "stepper", "name": "UI_ZStepper", "label": "Z-Translation", "min": -10, "max": 10.0, "value": 0.0, "step": 0.5},
 				# terrain toggle
 				{"type": "button", "name": "UITerrainToggle", "label": "Toggle Terrain"},
+				# model visibility toggle
+				{"type": "button", "name": "UIModelToggle", "label": "Mine Visibility"},
 			]
 		},
 		{
@@ -274,6 +276,12 @@ const BINDINGS := {
 		"panel": "ControlsPanel",
 		"button": "UITerrainToggle",
 		"param": "Terrain",
+		"value": 0,
+	},
+	{
+		"panel": "ControlsPanel",
+		"button": "UIModelToggle",
+		"param": "MV",
 		"value": 0,
 	},
 	{

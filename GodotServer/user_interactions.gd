@@ -8,6 +8,7 @@ extends Node
 @onready var _aerial_mesh = $"../ObstacleRoot/MineModel3D/Terrain/AerialMesh"
 @onready var _grabb_coll = $"../UIRoot/UIgrabbable/CollisionShape3D"
 @onready var _vrpn_link = $"../UIRoot/UIgrabbable/VRPNLink"
+@onready var _mine_layers = $"../ObstacleRoot/MineModel3D/MineLayers"
 var _UI_BINDINGS = UIDefinitions.get_bindings()
 
 # --------Variable Declarations--------
@@ -44,6 +45,9 @@ var current_mode : int = 0
 @onready var aerial_material = _aerial_mesh.get_active_material(0)
 var t_alpha = 0.412
 
+#_on_model_toggled config
+var m_toggle : bool = false
+
 
 # ---------- _ready() -----------------
 # Called when the node enters the scene tree for the first time.
@@ -67,6 +71,7 @@ func _ready():
 		"Mogul_Mine_and_Brenneman_Shaft#2": self._on_sublayer_selected,
 		"Terrain": self._on_terrain_toggled,
 		"lock": self._on_lock,
+		"MV": self._on_model_toggled,
 	}
 	
 	call_deferred("_init_subpanels") # initialize sub-layer panels to inactive after UIDefinitions is fully built
@@ -127,6 +132,25 @@ func _on_terrain_toggled(vale : int):
 		toggle = !toggle
 		terrain_material.transparency = toggle
 		aerial_material.transparency = toggle
+
+# Model Visibility toggle
+func _on_model_toggled(value : int):
+	m_toggle = !m_toggle
+	_mine_layers.visible = m_toggle
+	
+	_on_ui_parameter_updated("Mine_Sections", -1)
+	for key in LayerTrees:
+		var sub_panel = get_node_or_null("../UIRoot/UIgrabbable/hmdUI/UIDefinition/" + key)
+		if sub_panel:
+			_on_sublayer_selected(key,-1)
+			_reset_panel(sub_panel,"a")
+			_set_tree_state(sub_panel, false)
+	#
+	var layer_panel = get_node_or_null("../UIRoot/UIgrabbable/hmdUI/UIDefinition/LayerSelectionPanel")
+	if layer_panel:
+		_set_tree_state(layer_panel, m_toggle)
+		_reset_panel(layer_panel,"a")
+		
 
 # UI position lock
 func _on_lock(value):
@@ -204,13 +228,14 @@ func _set_tree_visible(node: Node, switch: bool):
 	if (node.get_child_count() > 0):
 		for child in node.get_children():
 				_set_tree_visible(child, switch)
-				
+
+
 func _toggle_dropdown(param: String):
 	var target_panel = get_node_or_null("../UIRoot/UIgrabbable/hmdUI/UIDefinition/" + param.get_slice("#",0))
 	if target_panel:
 		var current_dropdown = "UISubLayerDropdown#" + param.get_slice("#",1)
 		_reset_panel(target_panel, current_dropdown)
-
+		
 func _reset_panel(node: Node, target_node: String):
 	for child in node.get_children():
 		if (child is UIDropdown) && (child.name != target_node):
@@ -220,3 +245,8 @@ func _reset_panel(node: Node, target_node: String):
 # ----init functions------
 func _init_subpanels() -> void:
 	_on_ui_parameter_updated("Mine_Sections", -1)
+	
+	# mine visibility toggle add
+	var target_subpanel = get_node_or_null("../UIRoot/UIgrabbable/hmdUI/UIDefinition/LayerSelectionPanel")
+	if target_subpanel:
+		_set_tree_state(target_subpanel, m_toggle)
